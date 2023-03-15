@@ -1,0 +1,11 @@
+.git/
+.next/
+.husky/
+.swc/
+node_modules/
+.dockerignore
+.gitignore
+nginx*
+docker*
+*Dockerfile
+src/pages/api/help.ts

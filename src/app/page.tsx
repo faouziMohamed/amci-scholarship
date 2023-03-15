@@ -1,91 +1,73 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+// app/page.tsx
 
-const inter = Inter({ subsets: ['latin'] })
+'use client';
 
-export default function Home() {
+import { Box, Heading, Stack } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+
+import { fullRegex } from '@/lib/utils';
+
+import Header from '@/Components/Header';
+import PageHeading from '@/Components/PageHeading';
+import AppFormControl from '@/Components/TextField/AppFormControl';
+
+type SearchCodeFields = {
+  codeOrName: string;
+};
+
+function useFormHook() {
+  const form = useForm<SearchCodeFields>({
+    mode: 'all',
+    defaultValues: { codeOrName: '' },
+  });
+  const { register, formState, watch } = form;
+  return { register, errors: formState.errors, watch };
+}
+
+function SearchCode() {
+  const { register, errors, watch } = useFormHook();
+
+  const typed = watch('codeOrName');
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Stack w='100%' alignItems='center'>
+      <AppFormControl
+        isRequired
+        error={errors.codeOrName}
+        register={register('codeOrName', {
+          required: true,
+          pattern: fullRegex,
+          maxLength: Number(typed) ? 8 : 100,
+        })}
+        placeholder='Nom complet ou Numéro de matricule'
+      />
+    </Stack>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Box>
+      <Header />
+
+      <Stack spacing='2rem' as='main' px='1.5rem' py='3rem'>
+        <PageHeading />
+        <Stack alignItems='center' gap='1rem' as='section' pt='5rem'>
+          <Heading
+            as='h3'
+            fontSize='1.1rem'
+            textAlign='center'
+            borderBlockEnd='medium'
+            borderBlockEndColor='primary.light'
+            borderBlockEndStyle='solid'
+            display='inline-block'
+            pb={0}
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+            Veuillez saisir votre nom complet ou votre Numéro de matricule
+          </Heading>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+          <SearchCode />
+        </Stack>
+      </Stack>
+    </Box>
+  );
 }

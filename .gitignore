@@ -1,5 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
+next-env.d.ts
 # dependencies
 /node_modules
 /.pnp
@@ -7,11 +7,10 @@
 
 # testing
 /coverage
-
 # next.js
 /.next/
 /out/
-
+.env
 # production
 /build
 
@@ -23,14 +22,36 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
 # local env files
-.env*.local
+.env.development.local
+.env.test.local
 
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# next-sitemap
+robots.txt
+sitemap.xml
+/.ignore.ts
+/.idea/codeStyles/Project.xml
+/.idea/sonarlint/issuestore/
+/.idea/inspectionProfiles/
+/.idea/.name
+/.idea/git_toolbox_prj.xml
+/.idea/modules.xml
+/.idea/portfolio.iml
+/.idea/vcs.xml
+
+.vscode
+/public/sitemap-0.xml
+.env.production.local
+./**/*/planetscale.txt
+/comments
+/src/pages/api/v1/codes/[type]/Repository/planetscale.txt
+./src/pages/api/help.ts
+/src/pages/api/help.ts
+/.env.local
+/.env.local.production
+/git-filter-repo
+/.idea/dataSources/

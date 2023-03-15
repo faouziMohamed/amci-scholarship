@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model code {
+  id              Int      @id @default(autoincrement())
+  matricule       String
+  name            String
+  country         String
+  periodCode      String   @map("period_code")
+  scholarshipCode String   @map("scholarchip_code")
+  period          String
+  createdAt       DateTime @default(now())
+
+  @@unique([matricule, scholarshipCode], name: "matricule_scholarshipCode")
+  @@index([matricule], name: "matricule")
+  @@index([name], name: "name")
+  @@index([scholarshipCode], name: "scholarshipCode")
+}
