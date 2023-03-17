@@ -1,31 +1,26 @@
-import { matriculeRegexp } from '@/lib/utils';
+import { DEFAULT_PAGE_SIZE, getNextPage, matriculeRegexp } from '@/lib/utils';
 
 import prisma from './prisma';
 
-import { ScholarshipCode } from '@/types/app.types';
+import { FetchedCodes, ScholarshipCode } from '@/types/app.types';
 
-export async function addCode(code: ScholarshipCode) {
-  return prisma.code.create({ data: code });
-}
+const SELECT_CODE_CLAUSE = {
+  country: true,
+  matricule: true,
+  name: true,
+  scholarshipCode: true,
+  periodCode: true,
+};
 
 export async function addMultipleCodes(codes: ScholarshipCode[]) {
   return prisma.code.createMany({ data: codes });
 }
 
-export function isNotAPossibleMatricule(q: string) {
-  return q.at(0)?.match(/\d/) && (q.length > 8 || Number.isNaN(Number(q)));
-}
-
 function getQueryHelper(page: number) {
   return {
-    skip: Number(page) * 10,
-    take: 10,
-    select: {
-      matricule: true,
-      name: true,
-      scholarshipCode: true,
-      periodCode: true,
-    },
+    skip: Number(page) * DEFAULT_PAGE_SIZE,
+    take: DEFAULT_PAGE_SIZE,
+    select: SELECT_CODE_CLAUSE,
   };
 }
 
@@ -41,29 +36,36 @@ function buildQuery(str: string) {
 }
 
 async function getOneCodeByMatricule(str: string) {
-  return prisma.code.findFirst({ where: { matricule: str } });
+  return prisma.code.findFirst({
+    where: { matricule: str },
+    select: SELECT_CODE_CLAUSE,
+  });
 }
 
-export async function searchCodeByMatricule(str: string, page: number) {
+export async function searchScholarshipCode(
+  str: string,
+  page: number,
+): Promise<FetchedCodes> {
   if (str.match(matriculeRegexp)) {
-    const res = await getOneCodeByMatricule(str);
+    const res = (await getOneCodeByMatricule(str)) as ScholarshipCode;
     if (res) {
-      return { codes: [res], count: 1, nextPage: -1 };
+      return { codes: [res], totalCount: 1, nextPage: -1 };
     }
   }
 
   const whereClause = buildQuery(str);
   const searchHelper = getQueryHelper(page);
-  const codes = await prisma.code.findMany({
+  const foundCodes = await prisma.code.findMany({
     where: whereClause,
     orderBy: { name: 'asc' },
     ...searchHelper,
   });
-  const count = await prisma.code.count({ where: whereClause });
-  const nextPage = getNextPage(page, count);
-  return { codes, count, nextPage };
-}
+  if (!foundCodes.length) {
+    return { codes: [], totalCount: 0, nextPage: -1 };
+  }
 
-function getNextPage(page: number, count: number) {
-  return Number(page) * 10 + 10 < count ? Number(page) + 1 : -1;
+  const count = await prisma.code.count({ where: whereClause });
+  const codes = foundCodes as ScholarshipCode[];
+  const nextPage = getNextPage(page, count);
+  return { codes, totalCount: count, nextPage };
 }

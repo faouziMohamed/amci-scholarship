@@ -6,3 +6,5 @@ export const CSV_FILE_PATH = path.join(
   process.cwd(),
   'src/Repository/data/code_amci.csv',
 );
+
+export const GET_CODES_ROUTE = `${BASE_API_ROUTE}/codes`;
