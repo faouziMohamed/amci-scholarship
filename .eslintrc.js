@@ -42,7 +42,15 @@ module.exports = {
     'no-mixed-operators': 'error',
     'no-plusplus': ['warn', { allowForLoopAfterthoughts: true }],
     'no-param-reassign': ['error', { props: false }],
-
+    'no-restricted-syntax': [
+      'error',
+      {
+        message:
+          "Don't use Chakra's <Heading/> component. It creates an inconsistent UI with different heading sizes. Use <Text as='h1'/> instead.",
+        selector:
+          'ImportDeclaration[source.value="@chakra-ui/react"] > ImportSpecifier[imported.name="Heading"]',
+      },
+    ],
     'prettier/prettier': [
       'error',
       { singleQuote: true, semi: true, jsxSingleQuote: true },
