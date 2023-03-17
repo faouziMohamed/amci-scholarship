@@ -1,3 +1,5 @@
+'use client';
+
 import { ButtonGroup, IconButton } from '@chakra-ui/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';

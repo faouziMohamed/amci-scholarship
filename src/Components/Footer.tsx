@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, chakra, Flex, SimpleGrid, Stack } from '@chakra-ui/react';
 
 import {

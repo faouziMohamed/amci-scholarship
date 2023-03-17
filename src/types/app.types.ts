@@ -2,9 +2,13 @@ export type ScholarshipCode = {
   country: string;
   matricule: string;
   name: string;
-  periodCode: string;
+  amciCountryCode: string;
   scholarshipCode: string;
   period: string;
+};
+
+export type ScholarshipCodeWithPassport = ScholarshipCode & {
+  numPassport: string;
 };
 export const scholarshipPeriods = {
   septembre: 'Septembre/Octobre',

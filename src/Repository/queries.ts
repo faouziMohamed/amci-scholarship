@@ -2,17 +2,22 @@ import { DEFAULT_PAGE_SIZE, getNextPage, matriculeRegexp } from '@/lib/utils';
 
 import prisma from './prisma';
 
-import { FetchedCodes, ScholarshipCode } from '@/types/app.types';
+import {
+  FetchedCodes,
+  ScholarshipCode,
+  ScholarshipCodeWithPassport,
+} from '@/types/app.types';
 
 const SELECT_CODE_CLAUSE = {
   country: true,
   matricule: true,
   name: true,
   scholarshipCode: true,
-  periodCode: true,
+  amciCountryCode: true,
+  period: true,
 };
 
-export async function addMultipleCodes(codes: ScholarshipCode[]) {
+export async function addMultipleCodes(codes: ScholarshipCodeWithPassport[]) {
   return prisma.code.createMany({ data: codes });
 }
 
@@ -59,6 +64,7 @@ export async function searchScholarshipCode(
     where: whereClause,
     orderBy: { name: 'asc' },
     ...searchHelper,
+    select: SELECT_CODE_CLAUSE,
   });
   if (!foundCodes.length) {
     return { codes: [], totalCount: 0, nextPage: -1 };

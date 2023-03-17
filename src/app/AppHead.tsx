@@ -27,7 +27,7 @@ const seoTemplate = {
     'maroc',
   ].join(', '),
 };
-export default function App() {
+export default function AppHead() {
   return (
     <head>
       <title>Bourse AMCI | Association des Comoriens Étudiant au Maroc</title>

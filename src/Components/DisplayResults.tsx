@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Box } from '@chakra-ui/react';
 

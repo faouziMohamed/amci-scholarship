@@ -21,12 +21,16 @@ const nextConfig = {
     dirs: ['src'],
   },
 
+  compiler: {
+    styledComponents: { ssr: true, displayName: true },
+  },
   experimental: {
     fontLoaders: [
       { loader: 'next/font/google', options: { subsets: ['latin'] } },
     ],
     appDir: true,
   },
+
   async headers() {
     return [
       {
@@ -46,7 +50,6 @@ const nextConfig = {
   poweredByHeader: false,
   publicRuntimeConfig: { lastBuild, lastBuildIso },
   reactStrictMode: true,
-  swcMinify: true,
   // SVGR
   webpack(config) {
     config.module.rules.push(

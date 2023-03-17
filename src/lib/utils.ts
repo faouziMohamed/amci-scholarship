@@ -149,3 +149,7 @@ export async function copyToClipboard(text: string): Promise<boolean> {
     return false;
   }
 }
+
+export function removeExtraSpaces(str: string) {
+  return str.replace(/\s+/g, ' ').trim();
+}

@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable react/jsx-props-no-spreading */
 import { chakra } from '@chakra-ui/react';
 import Link, { LinkProps } from 'next/link';

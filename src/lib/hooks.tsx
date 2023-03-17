@@ -4,6 +4,7 @@ import { FieldErrors, useForm } from 'react-hook-form';
 
 import {
   createAbortController,
+  removeExtraSpaces,
   SEARCH_QUERY_PARAM_NAME,
   updateUrlParams,
 } from '@/lib/utils';
@@ -34,19 +35,21 @@ export function useSearchFormControl(defaultValues?: string) {
 }
 
 export function useFetchedCodes(
-  typed: string,
   errors: FieldErrors<SearchCodeFields>,
+  str = '',
 ) {
   const [result, setResult] = useState<FetchedCodes>();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const typed = removeExtraSpaces(str);
 
   useEffect(() => {
+    // use abort signal to cancel ongoing fetch when the user types something new
     const abort = createAbortController();
     const { controller, abortSignal, isSignalAborted } = abort;
 
-    if (!typed?.trim() || errors.codeOrName) {
+    if (!typed || errors.codeOrName) {
       setResult({ codes: [], totalCount: 0, nextPage: -1 });
       if (searchParams.get(SEARCH_QUERY_PARAM_NAME)?.trim()) {
         updateUrlParams('', router, pathname, searchParams);
@@ -68,8 +71,11 @@ export function useFetchedCodes(
     });
     void getCodes(params, controller.signal).then((data) => {
       if (!isSignalAborted()) {
+        // Trigger re-render in every case
+        // (even if there is no result to clean the shown result)
+        setResult(data);
         if (data.totalCount > 0) {
-          setResult(data);
+          // update cache only if there is a result
           saveNewCodeToSessionStorage(data);
         }
       }

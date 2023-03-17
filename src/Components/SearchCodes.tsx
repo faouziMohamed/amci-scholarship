@@ -1,3 +1,5 @@
+'use client';
+
 import { Stack } from '@chakra-ui/react';
 
 import {
@@ -15,7 +17,7 @@ export default function SearchCodes() {
   const valueFromQuery = useSearchParamFromUrlOnMount();
   const { register, errors, watch } = useSearchFormControl(valueFromQuery);
   const typed = watch('codeOrName') || valueFromQuery;
-  const result = useFetchedCodes(typed, errors);
+  const result = useFetchedCodes(errors, typed);
   return (
     <Stack w='100%' alignItems='center'>
       <ViewModeController />

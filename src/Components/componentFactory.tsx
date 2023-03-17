@@ -1,3 +1,5 @@
+'use client';
+
 import { chakra, ToastId, UseToastOptions } from '@chakra-ui/react';
 import { IoCopy } from 'react-icons/io5';
 
@@ -28,7 +30,7 @@ export function getRowTitle(code: ScholarshipCode) {
 export function getScholarshipCodeTitle(code: ScholarshipCode) {
   return (
     'Cliquez pour copier le code dans le presse-papier ' +
-    `${code.periodCode}/${code.scholarshipCode}`
+    `${code.amciCountryCode}/${code.scholarshipCode}`
   );
 }
 
@@ -37,14 +39,14 @@ export function copyCodeToClipboard(
   toast: (opt?: UseToastOptions) => ToastId,
 ) {
   return async () => {
-    const toCopy = `${code.periodCode}/${code.scholarshipCode}`;
+    const toCopy = `${code.amciCountryCode}/${code.scholarshipCode}`;
     await copyToClipboard(toCopy);
     toast();
   };
 }
 
 export function getFormattedScholarshipCode(code: ScholarshipCode) {
-  return `${code.periodCode} / ${formatNumber(code.scholarshipCode)}`;
+  return `${code.amciCountryCode} / ${formatNumber(code.scholarshipCode)}`;
 }
 
 export function getListAriaLabel(totalCount: number) {

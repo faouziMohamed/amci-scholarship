@@ -5,6 +5,7 @@ import { addMultipleCodes } from '@/Repository/queries';
 
 import {
   ScholarshipCode,
+  ScholarshipCodeWithPassport,
   ScholarshipPeriod,
   scholarshipPeriods,
 } from '@/types/app.types';
@@ -13,7 +14,7 @@ type ScholarshipCodeRow = [
   country: string,
   matricule: string,
   name: string,
-  periodCode: string,
+  amciCountryCode: string,
   scholarchipCode: string,
   period: ScholarshipPeriod,
 ];
@@ -23,13 +24,14 @@ function csvToScholarshipCode(
   period: ScholarshipPeriod,
 ) {
   const [country, matricule, name, , ,] = oneRow;
-  const [, , , periodCode, scholarshipCode] = oneRow;
-  const codeRow: ScholarshipCode = {
+  const [, , , numPassport, amciCountryCode, scholarshipCode] = oneRow;
+  const codeRow: ScholarshipCode & { numPassport: string } = {
     country,
     matricule,
     name,
-    periodCode,
+    amciCountryCode,
     scholarshipCode,
+    numPassport,
     period: scholarshipPeriods[period],
   };
   return codeRow;
@@ -42,7 +44,7 @@ export async function importScholarshipCodes(
   if (!filePath) {
     throw new Error('No file path provided');
   }
-  const fileRows: ScholarshipCode[] = [];
+  const fileRows: ScholarshipCodeWithPassport[] = [];
   const parser = fs
     .createReadStream(filePath)
     .pipe(parse({ trim: true, delimiter: ',' }));
@@ -67,7 +69,7 @@ export async function importScholarshipCodes(
   }
 }
 
-async function importAndFlush(fileRows: ScholarshipCode[]) {
+async function importAndFlush(fileRows: ScholarshipCodeWithPassport[]) {
   await addMultipleCodes(fileRows);
   fileRows.length = 0;
 }

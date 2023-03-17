@@ -15,10 +15,11 @@ model code {
   matricule       String
   name            String
   country         String
-  periodCode      String   @map("period_code")
+  amciCountryCode String   @map("amci_country_code")
   scholarshipCode String   @map("scholarchip_code")
   period          String
-  createdAt       DateTime @default(now())
+  numPassport     String   @map("num_passport")
+  createdAt       DateTime @default(now()) @map("created_at")
 
   @@unique([matricule, scholarshipCode], name: "matricule_scholarshipCode")
   @@index([matricule], name: "matricule")
