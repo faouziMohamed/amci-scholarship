@@ -17,7 +17,7 @@ else
 
   # Don't build
 
-  echo "🛑 - Production Build ignored cancelled"
+  echo "🛑 - Production Build cancelled"
 
   exit 0;
 
