@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { FormControl, FormLabel, Input } from '@chakra-ui/react';
-import { ChangeEventHandler } from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 import CustomFormControlErrorMessage, {
@@ -15,18 +14,23 @@ type AppFormControlProps = {
   displayError?: CustomErrorMessageProps;
   isRequired?: boolean;
   disabled?: boolean;
-  value?: string;
   type?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  defaultValue?: string;
 };
+
 export default function AppFormControl(props: AppFormControlProps) {
   const { error, label, placeholder, displayError } = props;
   const { register = {} as UseFormRegisterReturn } = props;
   const { isRequired = false, disabled } = props;
-  const { value, onChange, type: typ } = props;
+  const { type: typ, defaultValue } = props;
   const inputColor = error ? 'danger.main' : 'primary.main';
   return (
-    <FormControl isRequired={isRequired} isInvalid={!!error}>
+    <FormControl
+      isRequired={isRequired}
+      isInvalid={!!error}
+      maxW='33.5rem'
+      w='100%'
+    >
       {!!displayError && <CustomFormControlErrorMessage {...displayError} />}
       {!!label && <FormLabel>{label}</FormLabel>}
       <Input
@@ -37,9 +41,8 @@ export default function AppFormControl(props: AppFormControlProps) {
         }}
         type={typ}
         placeholder={placeholder}
-        value={value}
         {...register}
-        onChange={onChange}
+        defaultValue={defaultValue}
         sx={{
           '&:disabled': {
             backgroundColor: 'gray.100',

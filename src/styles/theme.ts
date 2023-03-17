@@ -1,13 +1,17 @@
 import { extendTheme } from '@chakra-ui/react';
-import { Noto_Sans, Roboto, Ropa_Sans } from 'next/font/google';
+import { Maven_Pro, Noto_Sans, Roboto, Ropa_Sans } from 'next/font/google';
 
 const breakpoints = {
   xs: '20rem', // 320px
   xxs: '23.375rem', // 375px
   sm: '30rem', // 480px
   xsm: '30.313rem', // 485px
+  // "529px": '33.063rem', // 529px
   md: '48rem', // 768px
+  xmd: '52rem', // 832px
+  // xmd: '53.563rem', // 847px
   lg: '62rem', // 992px
+  xlg: '68.75rem', // 1104px
   xl: '80rem', // 1280px
   '2xl': '96rem', // 1536px
 };
@@ -16,7 +20,7 @@ const colors = {
   primary: {
     main: '#005A87',
     light: '#0077B5',
-    dark: '#003D5A',
+    dark: '#03283a',
     500: '#005A87',
     400: '#0077B5',
     300: '#0096E0',
@@ -50,7 +54,7 @@ const colors = {
 
 const ropaSans = Ropa_Sans({
   weight: '400',
-  variable: '--font-primary',
+  variable: '--font-quaternary',
 });
 
 const roboto = Roboto({
@@ -63,14 +67,34 @@ const notoSans = Noto_Sans({
   variable: '--font-tertiary',
 });
 
+const mavenPro = Maven_Pro({
+  weight: ['400', '500', '700'],
+  variable: '--font-primary',
+});
+
+const styles = {
+  global: {
+    'body,h1,h2,h3,h4,p': {
+      fontFamily: `var(--font-primary, var(--font-secondary)) !important`,
+    },
+  },
+};
+
 const theme = {
   breakpoints,
   colors,
+  styles,
   fonts: {
     ropaSans,
     roboto,
     notoSans,
-    variables: [ropaSans.variable, notoSans.variable, roboto.variable],
+    mavenPro,
+    variables: [
+      ropaSans.variable,
+      notoSans.variable,
+      roboto.variable,
+      mavenPro.variable,
+    ],
   },
 };
 

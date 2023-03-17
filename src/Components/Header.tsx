@@ -1,22 +1,19 @@
 import { Link } from '@chakra-ui/next-js';
-import { chakra, Flex, Heading, Stack } from '@chakra-ui/react';
-import { FaFacebookF } from 'react-icons/fa';
-import { RiInstagramFill } from 'react-icons/ri';
-import { TfiYoutube } from 'react-icons/tfi';
+import { chakra, Flex, Text } from '@chakra-ui/react';
+
+import { capitalize } from '@/lib/utils';
+
+import { acemSocials } from '@/Repository/static-data';
 
 import AcemLogo from '~/logo/acem-logo.svg';
 
-const CkAcemLogo = chakra(AcemLogo, {
-  shouldForwardProp(prop: string): boolean {
-    return ['className', 'style'].includes(prop);
-  },
-});
-
+const CkAcemLogo = chakra(AcemLogo);
 export default function Header() {
   return (
-    <Stack
-      spacing='1rem'
-      as='header'
+    <chakra.header
+      gap='1rem'
+      display='flex'
+      flexDirection='column'
       py='1rem'
       px='1.5rem'
       bg='#005A87'
@@ -30,22 +27,22 @@ export default function Header() {
         textAlign='center'
       >
         <CkAcemLogo w='6rem' h='7rem' p={0} m={0} flexShrink='0' />
-        <Heading as='h2' fontSize='1.2rem'>
+        <Text as='h2' fontWeight='600' fontSize='1.6rem'>
           Association des Comoriens Étudiant au Maroc
-        </Heading>{' '}
+        </Text>
       </Flex>
       <Flex justifyContent='flex-end' alignItems='center' gap='0.5rem'>
-        <Link href='https://www.facebook.com/acem.ma'>
-          <FaFacebookF />
-        </Link>
-        <Link href='https://www.instagram.com/acem.ma'>
-          <RiInstagramFill />
-        </Link>
-        {/* youtube */}
-        <Link href='https://www.youtube.com/cha'>
-          <TfiYoutube />
-        </Link>
+        {Object.entries(acemSocials).map(([title, social]) => (
+          <Link
+            key={social.link}
+            href={social.link}
+            aria-label={`Link to our ${capitalize(title)}`}
+            title={`Link to our ${capitalize(title)}`}
+          >
+            <social.Icon fontSize='1.5rem' />
+          </Link>
+        ))}
       </Flex>
-    </Stack>
+    </chakra.header>
   );
 }

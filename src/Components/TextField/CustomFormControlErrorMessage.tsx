@@ -1,15 +1,9 @@
-import {
-  Box,
-  FormErrorMessage,
-  Heading,
-  HeadingProps,
-  Text,
-} from '@chakra-ui/react';
+import { Box, FormErrorMessage, Text, TextProps } from '@chakra-ui/react';
 
 export type CustomErrorMessageProps = {
   heading: string;
   rules?: string[];
-  as?: HeadingProps['as'];
+  as?: TextProps['as'];
 };
 export default function CustomFormControlErrorMessage({
   heading,
@@ -18,9 +12,9 @@ export default function CustomFormControlErrorMessage({
 }: CustomErrorMessageProps) {
   return (
     <FormErrorMessage flexDirection='column' pb='1rem' alignItems='flex-start'>
-      <Heading as={as} fontSize='xs'>
+      <Text fontWeight={600} as={as} fontSize='xs'>
         {heading}
-      </Heading>
+      </Text>
       {!!rules && (
         <Box as='ul' listStyleType='disc' ml={4}>
           {rules.map((item) => (
