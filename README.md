@@ -1,38 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+<img src='public/logo/acem-modern-logo.png'  width='300' height='300' alt="ACEM's logo" />
+</p>
+
+# Recupération des codes du bourse de l'AMCI
+
+This project show in a convenient way the scholarships code used that students will use to get their scholarship fees. 
+
 
 ## Getting Started
 
-First, run the development server:
+In this project i'm using yarn as package manager. Make sure if you contribute to this project to use yarn instead of npm.
+This project is built using:
+- [Next.js](https://nextjs.org/) (React) for the frontend and serverless functions
+- [Chakra UI](https://chakra-ui.com/) for the UI
+- MySQL Database from [Planetscale](https://planetscale.com/). _You can use any database you want._
+- [Prisma](https://www.prisma.io/) as an ORM for the database
+
+### Install the dependencies
 
 ```bash
-npm run dev
-# or
+yarn install
+```
+
+Make sure to create a .env file in the root of the project and add the following variables:
+```.dotenv
+DATABASE_URL=<your database url> 
+NEXT_PUBLIC_SITE_URL=http://localhost:3000 # or your production url eg: https://bourse.acem.org
+```
+### Create the database
+> You can have a ready to use database using Planetscale. You can create a free account [here](https://planetscale.com/) and then copy the database url from the database page.
+- If you are using Planetscale, make sure to select the connection for prisma. Otherwise, running the migration may fail.
+
+Run the following command to create the database:
+```bash
+yarn prisma generate
+yarn prisma db push
+```
+
+### Run the project
+
+```bash
 yarn dev
-# or
-pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Add data to the database
+The to use to init the database must be stored on the path `src/Repository/data/code_amci.csv` and it's mandatory to be in csv format with the following 5 columns and no header should be present:  
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+| country           | matricule | name                           | periode_code | scholarship_code |
+|-------------------|-----------|--------------------------------|--------------|------------------| 
+| Union des Comores | 20161136  | MOHAMED FAOUZI FAOUZOUDINE     | 81680        | 1113569          |
+| Union des Comores | 20161141  | HOUZAIMATA IBRAHIM             | 81680        | 1113570          |
+| Union des Comores | 20170952  | MOHAMED NASROUDINE SOULAIMANA  | 81680        | 1113612          |
+| Union des Comores | 20170955  | BEN HALIDI IGRAH SOYABA        | 81680        | 1113613          |
+| Union des Comores | 20170967  | HARIBOU ABDOUL KADER ATTOUMANI | 81680        | 1113614          |
+| Union des Comores | 20171029  | SEIFILMOULOUK SAID             | 81680        | 1113618          |
+|...                | ...       | ...                            | ...          | ...              |
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+In your browser or http client (Insomnia, Postman, Thunder Client, etc), make a GET request to the following url:
+- in development: `http://localhost:3000/api/v1/data-init`
+- in production: `https://your-production-url/api/v1/data-init`
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This will add the data to the database. You can start using the app.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+Hooray 🎉🎉🎉
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
