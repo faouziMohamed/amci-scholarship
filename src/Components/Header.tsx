@@ -26,7 +26,7 @@ export default function Header() {
         gap='1rem'
         textAlign='center'
       >
-        <CkAcemLogo w='6rem' h='7rem' p={0} m={0} flexShrink='0' />
+        <CkAcemLogo w='7rem' h='7rem' p={0} m={0} flexShrink='0' />
         <Text as='h2' fontWeight='600' fontSize='1.6rem'>
           Association des Comoriens Étudiant au Maroc
         </Text>

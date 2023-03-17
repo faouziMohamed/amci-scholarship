@@ -1,5 +1,3 @@
-// app/layout.tsx
-
 'use client';
 
 import { CacheProvider } from '@chakra-ui/next-js';
@@ -20,15 +18,6 @@ import theme, { extendedTheme } from '@/styles/theme';
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <chakra.html lang='fr' scrollBehavior='smooth'>
-      <head>
-        <title>Bourse AMCI | Association des Comoriens Étudiant au Maroc</title>
-        <meta charSet='UTF-8' />
-        <meta
-          name='viewport'
-          content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'
-        />
-        <meta httpEquiv='X-UA-Compatible' content='ie=edge' />
-      </head>
       <chakra.body
         h='100vh'
         className={theme.fonts.variables.join(' ')}
