@@ -1,6 +1,13 @@
 {
     "name": "AMCI scholarship code",
-    "short_name": "AMCI scholarship code",
+    "short_name": "Scholarship code",
+    "theme_color": "#9fe0c8",
+    "background_color": "#9fe0c8",
+    "start_url": "/",
+    "id":"/",
+    "scope": "/",
+    "orientation": "any",
+    "display": "standalone",
     "icons": [
         {
             "src": "/favicons/android-chrome-192x192.png?v=1.0",
@@ -12,9 +19,5 @@
             "sizes": "512x512",
             "type": "image/png"
         }
-    ],
-    "theme_color": "#9fe0c8",
-    "background_color": "#9fe0c8",
-    "start_url": "https://amci-scholarship.vercel.app",
-    "display": "standalone"
+    ]
 }

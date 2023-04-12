@@ -1,7 +1,14 @@
 'use client';
 
 import { CacheProvider } from '@chakra-ui/next-js';
-import { Box, ChakraProvider, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import {
+  Box,
+  chakra,
+  ChakraProvider,
+  Flex,
+  SimpleGrid,
+  Text,
+} from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import AppHead from '@/app/AppHead';
@@ -11,18 +18,9 @@ import theme, { extendedTheme } from '@/styles/theme';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang='fr'>
+    <chakra.html lang='fr' scrollBehavior='smooth'>
       <AppHead />
-      <body>
-        <style jsx global>{`
-          html {
-            scroll-behavior: smooth;
-          }
-          body {
-            height: 100vh;
-            position: relative;
-          }
-        `}</style>
+      <chakra.body h='100vh' position='relative'>
         <CacheProvider>
           <ChakraProvider theme={extendedTheme}>
             <SimpleGrid
@@ -53,7 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </SimpleGrid>
           </ChakraProvider>
         </CacheProvider>
-      </body>
-    </html>
+      </chakra.body>
+    </chakra.html>
   );
 }

@@ -9,8 +9,9 @@ import { TbLayoutList } from 'react-icons/tb';
 import {
   VIEW_MODE_QUERY_NAME,
   VIEW_MODE_STORAGE_KEY,
-  ViewMode,
-} from '@/types/app.types';
+} from '@/lib/utils.constant';
+
+import { ViewMode } from '@/types/app.types';
 
 export function ViewModeController() {
   const searchParams = useSearchParams();

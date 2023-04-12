@@ -55,21 +55,25 @@ const colors = {
 const ropaSans = Ropa_Sans({
   weight: '400',
   variable: '--font-quaternary',
+  subsets: ['latin'],
 });
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
   variable: '--font-secondary',
+  subsets: ['latin'],
 });
 
 const notoSans = Noto_Sans({
   weight: ['400', '500', '700'],
   variable: '--font-tertiary',
+  subsets: ['latin'],
 });
 
 const mavenPro = Maven_Pro({
   weight: ['400', '500', '700'],
   variable: '--font-primary',
+  subsets: ['latin'],
 });
 
 const styles = {

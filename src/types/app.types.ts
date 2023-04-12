@@ -28,5 +28,3 @@ export type FetchedCodes = {
   nextPage: number;
 };
 export type ViewMode = 'list' | 'grid';
-export const VIEW_MODE_QUERY_NAME = 'view';
-export const VIEW_MODE_STORAGE_KEY = 'viewMode';

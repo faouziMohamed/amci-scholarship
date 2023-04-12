@@ -1,11 +1,15 @@
 import { ReadonlyURLSearchParams, useRouter } from 'next/navigation';
 
-export const DEFAULT_PAGE_SIZE = 10;
-export const SEARCH_QUERY_PARAM_NAME = 'q';
+import {
+  CODES_QUERY_PARAM_NAME,
+  DEFAULT_PAGE_SIZE,
+} from '@/lib/utils.constant';
+
 export const matriculeRegexp = /^\d{8}$/;
 export const nameRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+[a-zA-ZÀ-ÖØ-öø-ÿ\s\d-_]+$/;
 export const fullRegex =
-  /^(\d{8}|^[a-zA-ZÀ-ÖØ-öø-ÿ\s][a-zA-ZÀ-ÖØ-öø-ÿ\s\d-_]*)$/;
+  /^(\d{2,8}|^[a-zA-ZÀ-ÖØ-öø-ÿ\s][a-zA-ZÀ-ÖØ-öø-ÿ\s\d-_]*)$/;
+// The above regex mat
 
 export function updateUrlParams(
   str: string,
@@ -16,14 +20,14 @@ export function updateUrlParams(
   const typed = str.trim();
   if (!typed.trim()) {
     const newParams = new URLSearchParams(searchParams);
-    newParams.delete(SEARCH_QUERY_PARAM_NAME);
+    newParams.delete(CODES_QUERY_PARAM_NAME);
     const newUrl = `${pathname}?${newParams.toString()}`;
     void router.replace(newUrl);
     return;
   }
   const newParams = new URLSearchParams(searchParams);
   // just update the query params without reloading the page
-  newParams.set(SEARCH_QUERY_PARAM_NAME, typed.trim());
+  newParams.set(CODES_QUERY_PARAM_NAME, typed.trim());
   const newUrl = `${pathname}?${newParams.toString()}`;
   void router.replace(newUrl);
 }
@@ -44,6 +48,7 @@ export function getNextPage(page: number, count: number) {
 }
 
 export function isNotAPossibleMatricule(q: string) {
+  // if the first character is a number, and the length is less than 8 or the remaining characters contain a non-number, then it's not a matricule
   return q.at(0)?.match(/\d/) && (q.length > 8 || Number.isNaN(Number(q)));
 }
 export const capitalize = (str: string) =>
