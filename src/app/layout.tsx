@@ -12,17 +12,17 @@ import theme, { extendedTheme } from '@/styles/theme';
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='fr'>
-      <style jsx global>{`
-        html {
-          scroll-behavior: smooth;
-        }
-        body {
-          height: 100vh;
-          position: relative;
-        }
-      `}</style>
       <AppHead />
       <body>
+        <style jsx global>{`
+          html {
+            scroll-behavior: smooth;
+          }
+          body {
+            height: 100vh;
+            position: relative;
+          }
+        `}</style>
         <CacheProvider>
           <ChakraProvider theme={extendedTheme}>
             <SimpleGrid
