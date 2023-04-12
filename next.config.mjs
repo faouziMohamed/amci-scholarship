@@ -25,9 +25,6 @@ const nextConfig = {
     styledComponents: { ssr: true, displayName: true },
   },
   experimental: {
-    fontLoaders: [
-      { loader: 'next/font/google', options: { subsets: ['latin'] } },
-    ],
     appDir: true,
   },
 
