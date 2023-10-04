@@ -1,4 +1,5 @@
-import { DEFAULT_PAGE_SIZE, getNextPage, matriculeRegexp } from '@/lib/utils';
+import { getNextPage, matriculeRegexp } from '@/lib/utils';
+import { DEFAULT_PAGE_SIZE } from '@/lib/utils.constant';
 
 import prisma from './prisma';
 

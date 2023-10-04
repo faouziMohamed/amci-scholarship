@@ -3,6 +3,10 @@ import { createRouter } from 'next-connect';
 
 import { apiMiddleware } from '@/lib/middleware';
 import { isNotAPossibleMatricule } from '@/lib/utils';
+import {
+  CODES_QUERY_PARAM_NAME,
+  PAGE_NUMBER_QUERY_PARAM_NAME,
+} from '@/lib/utils.constant';
 
 import { searchScholarshipCode } from '@/Repository/queries';
 
@@ -29,7 +33,9 @@ router.get(
     req: NextApiRequestWithQuery,
     res: NextApiResponse<FetchedCodes | ApiErrorMessage>,
   ) => {
-    const { q, page: p = 0 } = req.query;
+    const { [PAGE_NUMBER_QUERY_PARAM_NAME]: p = 0 } = req.query;
+    const { [CODES_QUERY_PARAM_NAME]: q } = req.query;
+
     if (!q) {
       res.status(400).json({ message: '🥸 No query provided' });
       return;

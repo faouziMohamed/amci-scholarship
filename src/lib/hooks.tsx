@@ -5,9 +5,13 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import {
   createAbortController,
   removeExtraSpaces,
-  SEARCH_QUERY_PARAM_NAME,
   updateUrlParams,
 } from '@/lib/utils';
+import {
+  CODES_QUERY_PARAM_NAME,
+  VIEW_MODE_QUERY_NAME,
+  VIEW_MODE_STORAGE_KEY,
+} from '@/lib/utils.constant';
 
 import {
   getCodes,
@@ -15,11 +19,7 @@ import {
   saveNewCodeToSessionStorage,
 } from '@/Services/codes.service';
 
-import {
-  FetchedCodes,
-  VIEW_MODE_STORAGE_KEY,
-  ViewMode,
-} from '@/types/app.types';
+import { FetchedCodes, ViewMode } from '@/types/app.types';
 
 type SearchCodeFields = {
   codeOrName: string;
@@ -43,15 +43,13 @@ export function useFetchedCodes(
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const typed = removeExtraSpaces(str);
-
   useEffect(() => {
     // use abort signal to cancel ongoing fetch when the user types something new
     const abort = createAbortController();
     const { controller, abortSignal, isSignalAborted } = abort;
-
     if (!typed || errors.codeOrName) {
       setResult({ codes: [], totalCount: 0, nextPage: -1 });
-      if (searchParams.get(SEARCH_QUERY_PARAM_NAME)?.trim()) {
+      if (searchParams.get(CODES_QUERY_PARAM_NAME)?.trim()) {
         updateUrlParams('', router, pathname, searchParams);
       }
       return abortSignal;
@@ -67,7 +65,7 @@ export function useFetchedCodes(
     }
 
     const params = new URLSearchParams({
-      [SEARCH_QUERY_PARAM_NAME]: typed.trim(),
+      [CODES_QUERY_PARAM_NAME]: typed.trim(),
     });
     void getCodes(params, controller.signal).then((data) => {
       if (!isSignalAborted()) {
@@ -89,13 +87,13 @@ export function useFetchedCodes(
 
 export function useSearchParamFromUrlOnMount() {
   const queries = useSearchParams();
-  return queries.get('q') || '';
+  return queries.get(CODES_QUERY_PARAM_NAME) || '';
 }
 
 export function useViewMode() {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
-  let viewMode = params.get('view') as ViewMode;
+  let viewMode = params.get(VIEW_MODE_QUERY_NAME) as ViewMode;
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

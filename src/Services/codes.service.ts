@@ -1,5 +1,6 @@
 import { GET_CODES_ROUTE } from '@/lib/server-route';
-import { DEFAULT_PAGE_SIZE, getNextPage } from '@/lib/utils';
+import { getNextPage } from '@/lib/utils';
+import { DEFAULT_PAGE_SIZE } from '@/lib/utils.constant';
 
 import { FetchedCodes, ScholarshipCode } from '@/types/app.types';
 
