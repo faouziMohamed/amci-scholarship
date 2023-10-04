@@ -21,10 +21,14 @@ export function DragAndDropZone({
       w='100%'
       cursor='pointer'
       {...rootProps}
+      bgColor={isDragActive ? 'gray.100' : 'gray.50'}
+      _hover={{ bgColor: 'gray.100' }}
     >
       <input {...inputProps} />
       {isDragActive ? (
-        <Text>Déposez le fichier ici...</Text>
+        <Text fontWeight={500} fontSize='1rem'>
+          Déposez le fichier ici...
+        </Text>
       ) : (
         <>
           <Text fontWeight={500} fontSize='1rem'>

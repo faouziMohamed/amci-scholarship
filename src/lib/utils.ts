@@ -190,4 +190,4 @@ export const csvFormat = [
   'Numéro du passeport',
   'Code du bourse (partie 1)',
   'Code du bourse (partie 2)',
-];
+] as const;

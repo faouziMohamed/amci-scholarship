@@ -8,27 +8,72 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Alert,
-  AlertIcon,
-  Button,
-  Stack,
-  Tag,
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import { AddNewCodes } from '@/Components/app/AddNewCodes';
+import { POST_CODES_ROUTE } from '@/lib/server-route';
+
+import { PreviewImportedCodes } from '@/Components/app/PreviewImportedCodes';
+import { ReadNewScholarshipCodes } from '@/Components/app/ReadNewScholarshipCodes';
+import { SelectScholarshipPeriod } from '@/Components/app/SelectScholarshipPeriod';
+import { useCopyToClipBoardToast } from '@/Components/componentFactory';
 
 import {
   ScholarshipCodeWithPassport,
   ScholarshipPeriod,
-  scholarshipPeriods,
 } from '@/types/app.types';
 
 export default function CodesPage() {
   const [codes, setCodes] = useState<ScholarshipCodeWithPassport[]>([]);
   const [period, setPeriod] = useState<ScholarshipPeriod | undefined>();
+  const [processingPreview, setProcessingPreview] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const toast = useCopyToClipBoardToast();
+  const onSubmit = useCallback(async () => {
+    setIsSubmitting(true);
+    if (codes.length === 0) {
+      toast({
+        title: 'Aucun code à importer',
+        status: 'error',
+        description: 'Veuillez importer des codes avant de continuer',
+      });
+      return;
+    }
+    try {
+      const response = await fetch(POST_CODES_ROUTE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ codes, period }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: 'Codes importés',
+          status: 'success',
+          description:
+            'Les codes ont été importés avec succès, ils sont disponibles dans la liste des codes',
+        });
+        setCodes([]);
+        return;
+      }
+      const resJson = (await response.json()) as {
+        message: string;
+        code: number;
+      };
+      toast({
+        title: "Erreur d'importation",
+        status: 'error',
+        description: resJson.message || 'Une erreur est survenue',
+      });
+    } catch (error) {
+      const message = (error as Error).message || 'Une erreur est survenue';
+      toast({ title: 'Erreur', status: 'error', description: message });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [codes, period, toast]);
   return (
     <VStack h='100%' py='2rem' overflow='auto'>
       <VStack
@@ -43,7 +88,7 @@ export default function CodesPage() {
         <Text as='h1' fontSize='1.5rem' fontWeight={600}>
           Import de nouveaux codes de la bourse
         </Text>
-        <Accordion w='100%' allowToggle allowMultiple defaultIndex={[0, 1]}>
+        <Accordion w='100%' allowMultiple defaultIndex={[0, 1]}>
           <AccordionItem>
             <Text as='h2'>
               <AccordionButton fontWeight={500}>
@@ -52,35 +97,7 @@ export default function CodesPage() {
               </AccordionButton>
             </Text>
             <AccordionPanel pb={4}>
-              <VStack alignItems='flex-start'>
-                <Text>
-                  Veuillez choisir la periode correspondante pour ces codes:
-                </Text>
-                <Alert maxWidth='35rem' rounded='md' status='info'>
-                  <AlertIcon />
-                  La periode choisie sera appliquée pour tous les codes
-                  importées
-                </Alert>
-                <Stack flexFlow='row wrap'>
-                  {Object.keys(scholarshipPeriods).map((key) => (
-                    <Tag
-                      as={Button}
-                      key={key}
-                      bgColor={
-                        period === key ? 'primary.main' : 'primary.semiDark'
-                      }
-                      color={period === key ? 'primary.50' : '#222'}
-                      _hover={{
-                        bgColor: 'primary.500',
-                        color: 'primary.50',
-                      }}
-                      onClick={() => setPeriod(key as ScholarshipPeriod)}
-                    >
-                      {scholarshipPeriods[key as ScholarshipPeriod]}
-                    </Tag>
-                  ))}
-                </Stack>
-              </VStack>
+              <SelectScholarshipPeriod period={period} setPeriod={setPeriod} />
             </AccordionPanel>
           </AccordionItem>
           <AccordionItem borderBottom='none' isDisabled={!period}>
@@ -92,11 +109,19 @@ export default function CodesPage() {
             </Text>
             <AccordionPanel pb={4} w='100%'>
               {!!period && (
-                <AddNewCodes
-                  period={period}
-                  codes={codes}
-                  setCodes={setCodes}
-                />
+                <VStack alignItems='flex-end' w='100%' spacing={5}>
+                  <ReadNewScholarshipCodes
+                    period={period}
+                    setCodes={setCodes}
+                    setProcessingPreview={setProcessingPreview}
+                  />
+                  <PreviewImportedCodes
+                    codes={codes}
+                    isProcessing={processingPreview}
+                    isSubmitting={isSubmitting}
+                    onSubmit={onSubmit}
+                  />
+                </VStack>
               )}
             </AccordionPanel>
           </AccordionItem>

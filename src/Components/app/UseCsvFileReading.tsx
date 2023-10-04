@@ -1,5 +1,5 @@
 import { UseToastOptions } from '@chakra-ui/react';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 
 import { csvToScholarshipCode } from '@/lib/utils';
@@ -15,9 +15,9 @@ import {
 export function useCsvFileReading(
   setCodes: (codes: ScholarshipCodeWithPassport[]) => void,
   period: ScholarshipPeriod,
+  setProcessingPreview: (value: boolean) => void,
 ) {
   const toast = useCopyToClipBoardToast();
-  const [processing, setProcessing] = useState(false);
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       if (fileRejections.length > 0) {
@@ -30,9 +30,9 @@ export function useCsvFileReading(
         });
         return;
       }
-      readCsvFile(acceptedFiles, toast, setProcessing, period, setCodes);
+      readCsvFile(acceptedFiles, toast, setProcessingPreview, period, setCodes);
     },
-    [period, setCodes, toast],
+    [period, setCodes, setProcessingPreview, toast],
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -40,7 +40,7 @@ export function useCsvFileReading(
     accept: { 'text/csv': ['.csv'] },
     multiple: false,
   });
-  return { toast, processing, getRootProps, getInputProps, isDragActive };
+  return { toast, getRootProps, getInputProps, isDragActive };
 }
 
 function readCsvFile(
