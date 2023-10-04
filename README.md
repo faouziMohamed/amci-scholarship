@@ -73,4 +73,3 @@ In your browser or http client (Insomnia, Postman, Thunder Client, etc), make a 
 This will add the data to the database. You can start using the app.
 
 Hooray 🎉🎉🎉
-
