@@ -10,9 +10,6 @@ import {
   AccordionPanel,
   Alert,
   AlertIcon,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Button,
   Stack,
   Tag,
@@ -43,19 +40,6 @@ export default function CodesPage() {
         px='1rem'
         spacing={10}
       >
-        <Breadcrumb fontSize='sm' alignSelf='flex-start'>
-          <BreadcrumbItem>
-            <BreadcrumbLink href='#'>Home</BreadcrumbLink>
-          </BreadcrumbItem>
-
-          <BreadcrumbItem>
-            <BreadcrumbLink href='#'>About</BreadcrumbLink>
-          </BreadcrumbItem>
-
-          <BreadcrumbItem fontWeight='medium' isCurrentPage>
-            <BreadcrumbLink href='#'>Current</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
         <Text as='h1' fontSize='1.5rem' fontWeight={600}>
           Import de nouveaux codes de la bourse
         </Text>

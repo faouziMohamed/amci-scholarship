@@ -13,7 +13,7 @@ import { IconType } from 'react-icons';
 import { AiOutlineNumber } from 'react-icons/ai';
 import { HiUsers } from 'react-icons/hi';
 import { IoLogOut } from 'react-icons/io5';
-import { MdManageAccounts } from 'react-icons/md';
+import { MdManageAccounts, MdSpaceDashboard } from 'react-icons/md';
 
 import { CkAcemLogo } from '@/Components/CkAcemLogo';
 
@@ -23,6 +23,12 @@ const navList: {
   href: string;
   id: number;
 }[] = [
+  {
+    id: 0,
+    name: 'Tableau de bord',
+    icon: MdSpaceDashboard,
+    href: '/dashboard',
+  },
   {
     id: 1,
     name: 'Codes de la bourse',
@@ -61,6 +67,7 @@ export default function AppSidebar() {
       py='2rem'
       width='100%'
       maxW='15rem'
+      overflowY='auto'
     >
       <Stack spacing={5}>
         <CkAcemLogo w='3rem' />
