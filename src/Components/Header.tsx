@@ -1,18 +1,17 @@
 'use client';
 
 import { Link } from '@chakra-ui/next-js';
-import { chakra, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { capitalize } from '@/lib/utils';
 
+import { CkAcemLogo } from '@/Components/CkAcemLogo';
 import { acemSocials } from '@/Repository/static-data';
 
-import AcemLogo from '~/logo/acem-logo.svg';
-
-const CkAcemLogo = chakra(AcemLogo);
 export default function Header() {
   return (
-    <chakra.header
+    <Box
+      as='header'
       gap='1rem'
       display='flex'
       flexDirection='column'
@@ -45,6 +44,6 @@ export default function Header() {
           </Link>
         ))}
       </Flex>
-    </chakra.header>
+    </Box>
   );
 }

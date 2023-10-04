@@ -1,5 +1,12 @@
 import { extendTheme } from '@chakra-ui/react';
-import { Maven_Pro, Noto_Sans, Roboto, Ropa_Sans } from 'next/font/google';
+
+import {
+  fontsVariables,
+  mavenPro,
+  notoSans,
+  roboto,
+  ropaSans,
+} from '@/styles/fonts';
 
 const breakpoints = {
   xs: '20rem', // 320px
@@ -21,7 +28,8 @@ const colors = {
     main: '#005A87',
     light: '#0077B5',
     dark: '#03283a',
-    500: '#005A87',
+    semiDark: 'rgba(35,77,98,0.31)',
+    500: '#034667',
     400: '#0077B5',
     300: '#0096E0',
     200: '#00B5FF',
@@ -52,26 +60,6 @@ const colors = {
   },
 };
 
-const ropaSans = Ropa_Sans({
-  weight: '400',
-  variable: '--font-quaternary',
-});
-
-const roboto = Roboto({
-  weight: ['400', '500', '700'],
-  variable: '--font-secondary',
-});
-
-const notoSans = Noto_Sans({
-  weight: ['400', '500', '700'],
-  variable: '--font-tertiary',
-});
-
-const mavenPro = Maven_Pro({
-  weight: ['400', '500', '700'],
-  variable: '--font-primary',
-});
-
 const styles = {
   global: {
     'body,h1,h2,h3,h4,p': {
@@ -89,12 +77,7 @@ const theme = {
     roboto,
     notoSans,
     mavenPro,
-    variables: [
-      ropaSans.variable,
-      notoSans.variable,
-      roboto.variable,
-      mavenPro.variable,
-    ],
+    variables: fontsVariables,
   },
 };
 

@@ -1,5 +1,3 @@
-'use client';
-
 import { Divider, List, ListItem } from '@chakra-ui/react';
 
 import { getListAriaLabel } from '@/Components/componentFactory';

@@ -1,41 +1,17 @@
 import { parse } from 'csv-parse';
 import fs from 'fs';
 
+import { csvToScholarshipCode } from '@/lib/utils';
+
 import { addMultipleCodes } from '@/Repository/queries';
 
 import {
-  ScholarshipCode,
+  ScholarshipCodeRow,
   ScholarshipCodeWithPassport,
   ScholarshipPeriod,
-  scholarshipPeriods,
 } from '@/types/app.types';
 
-type ScholarshipCodeRow = [
-  country: string,
-  matricule: string,
-  name: string,
-  amciCountryCode: string,
-  scholarchipCode: string,
-  period: ScholarshipPeriod,
-];
 const BATCH_SIZE = 200;
-function csvToScholarshipCode(
-  oneRow: ScholarshipCodeRow,
-  period: ScholarshipPeriod,
-) {
-  const [country, matricule, name, , ,] = oneRow;
-  const [, , , numPassport, amciCountryCode, scholarshipCode] = oneRow;
-  const codeRow: ScholarshipCode & { numPassport: string } = {
-    country,
-    matricule,
-    name,
-    amciCountryCode,
-    scholarshipCode,
-    numPassport,
-    period: scholarshipPeriods[period],
-  };
-  return codeRow;
-}
 
 export async function importScholarshipCodes(
   filePath: string,

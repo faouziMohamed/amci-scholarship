@@ -30,3 +30,12 @@ export type FetchedCodes = {
 export type ViewMode = 'list' | 'grid';
 export const VIEW_MODE_QUERY_NAME = 'view';
 export const VIEW_MODE_STORAGE_KEY = 'viewMode';
+export type ScholarshipCodeRow = [
+  country: string,
+  matricule: string,
+  name: string,
+  numPassport: string,
+  amciCountryCode: string,
+  scholarchipCode: string,
+  period: ScholarshipPeriod,
+];

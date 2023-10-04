@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import nc from 'next-connect';
+import { createRouter } from 'next-connect';
 
 import { apiMiddleware } from '@/lib/middleware';
 import { isNotAPossibleMatricule } from '@/lib/utils';
@@ -8,7 +8,6 @@ import { searchScholarshipCode } from '@/Repository/queries';
 
 import { FetchedCodes } from '@/types/app.types';
 
-const handler = nc().use(apiMiddleware);
 interface NextApiRequestWithQuery extends NextApiRequest {
   query: {
     q: string;
@@ -20,7 +19,12 @@ type ApiErrorMessage = {
   message: string;
 };
 
-handler.get(
+const router = createRouter<
+  NextApiRequestWithQuery,
+  NextApiResponse<FetchedCodes | ApiErrorMessage>
+>().use(apiMiddleware);
+
+router.get(
   async (
     req: NextApiRequestWithQuery,
     res: NextApiResponse<FetchedCodes | ApiErrorMessage>,
@@ -41,4 +45,4 @@ handler.get(
   },
 );
 
-export default handler;
+export default router.handler();

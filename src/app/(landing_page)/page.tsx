@@ -1,5 +1,3 @@
-'use client';
-
 import { Stack } from '@chakra-ui/react';
 
 import PageHeading from '@/Components/PageHeading';

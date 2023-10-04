@@ -1,5 +1,3 @@
-'use client';
-
 /* eslint-disable react/jsx-props-no-spreading */
 import { FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';

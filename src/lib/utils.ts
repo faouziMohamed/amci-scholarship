@@ -1,6 +1,13 @@
 import { ReadonlyURLSearchParams, useRouter } from 'next/navigation';
 
-export const DEFAULT_PAGE_SIZE = 10;
+import {
+  ScholarshipCode,
+  ScholarshipCodeRow,
+  ScholarshipPeriod,
+  scholarshipPeriods,
+} from '@/types/app.types';
+
+export const DEFAULT_PAGE_SIZE = 100;
 export const SEARCH_QUERY_PARAM_NAME = 'q';
 export const matriculeRegexp = /^\d{8}$/;
 export const nameRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+[a-zA-ZÀ-ÖØ-öø-ÿ\s\d-_]+$/;
@@ -46,8 +53,10 @@ export function getNextPage(page: number, count: number) {
 export function isNotAPossibleMatricule(q: string) {
   return q.at(0)?.match(/\d/) && (q.length > 8 || Number.isNaN(Number(q)));
 }
+
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
 export function capitalizeEachWord(str: string) {
   return str.split(' ').map(capitalize).join(' ');
 }
@@ -70,10 +79,10 @@ export const camelCaseToTitleCase = (
   return upperCaseEachWord(str.replace(regex, '$& '));
 };
 
-export function formatNumber(value: string) {
+export function formatNumber(value: string, newSeparator = '-') {
   return Number(value) //
     .toLocaleString('en-US')
-    .replaceAll(',', '-');
+    .replaceAll(',', newSeparator);
 }
 
 export function adjustColor(
@@ -153,3 +162,32 @@ export async function copyToClipboard(text: string): Promise<boolean> {
 export function removeExtraSpaces(str: string) {
   return str.replace(/\s+/g, ' ').trim();
 }
+
+export function csvToScholarshipCode(
+  oneRow: ScholarshipCodeRow,
+  period: ScholarshipPeriod,
+) {
+  const [country, matricule, name, , ,] = oneRow;
+  const [, , , numPassport, amciCountryCode, scholarshipCode] = oneRow;
+  const codeRow: ScholarshipCode & {
+    numPassport: string;
+  } = {
+    country,
+    matricule,
+    name,
+    amciCountryCode,
+    scholarshipCode,
+    numPassport,
+    period: scholarshipPeriods[period],
+  };
+  return codeRow;
+}
+
+export const csvFormat = [
+  'Nationalité',
+  'Numéro de matricule',
+  'Nom et prénom',
+  'Numéro du passeport',
+  'Code du bourse (partie 1)',
+  'Code du bourse (partie 2)',
+];

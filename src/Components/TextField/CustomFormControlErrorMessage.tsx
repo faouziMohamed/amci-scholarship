@@ -1,5 +1,3 @@
-'use client';
-
 import { Box, FormErrorMessage, Text, TextProps } from '@chakra-ui/react';
 
 export type CustomErrorMessageProps = {

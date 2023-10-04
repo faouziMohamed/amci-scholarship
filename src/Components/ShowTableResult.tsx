@@ -10,9 +10,8 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { SystemStyleObject } from '@chakra-ui/styled-system';
 
-import { adjustColor, capitalizeEachWord } from '@/lib/utils';
+import { capitalizeEachWord } from '@/lib/utils';
 
 import {
   copyCodeToClipboard,
@@ -23,22 +22,9 @@ import {
   getScholarshipCodeTitle,
   useCopyToClipBoardToast,
 } from '@/Components/componentFactory';
-import theme from '@/styles/theme';
+import { evenRowsBg, oddRowsBg } from '@/Components/TableStyles';
 
 import { ScholarshipCode } from '@/types/app.types';
-
-const oddRowsBg: SystemStyleObject = {
-  bg: `${adjustColor(theme.colors.primary.main, 70, 20)} !important`,
-  _hover: {
-    bg: `${adjustColor(theme.colors.primary.main, 70, 30)} !important`,
-  },
-};
-const evenRowsBg: SystemStyleObject = {
-  bg: 'whiteAlpha.700 !important',
-  _hover: {
-    bg: `${adjustColor(theme.colors.secondary.main, 80, 20)} !important`,
-  },
-};
 
 export default function ShowTableResult(props: {
   totalCount: number;
