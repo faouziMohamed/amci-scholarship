@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, chakra, Flex, SimpleGrid, Stack } from '@chakra-ui/react';
+import { Box, Flex, SimpleGrid, Stack } from '@chakra-ui/react';
 
 import {
   AddressLocation,
@@ -13,7 +13,7 @@ import { acemSocials, footerLinks } from '@/Repository/static-data';
 
 export default function Footer() {
   return (
-    <chakra.footer
+    <Flex
       bg='primary.dark'
       display='flex'
       py='2rem'
@@ -23,7 +23,7 @@ export default function Footer() {
       alignItems='center'
       justifyContent='center'
     >
-      <chakra.section w='100%' maxW='75rem'>
+      <Box as='section' w='100%' maxW='75rem'>
         <SimpleGrid
           w='100%'
           minChildWidth='16rem'
@@ -63,7 +63,7 @@ export default function Footer() {
             </Box>
           </Stack>
         </SimpleGrid>
-      </chakra.section>
-    </chakra.footer>
+      </Box>
+    </Flex>
   );
 }

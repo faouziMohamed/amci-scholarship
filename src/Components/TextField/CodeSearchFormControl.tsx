@@ -18,7 +18,7 @@ type AppFormControlProps = {
   defaultValue?: string;
 };
 
-export default function AppFormControl(props: AppFormControlProps) {
+export default function CodeSearchFormControl(props: AppFormControlProps) {
   const { error, label, placeholder, displayError } = props;
   const { register = {} as UseFormRegisterReturn } = props;
   const { isRequired = false, disabled } = props;

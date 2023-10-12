@@ -1,5 +1,41 @@
 export const CODES_QUERY_PARAM_NAME = 'q';
 export const VIEW_MODE_QUERY_NAME = 'view';
-export const PAGE_NUMBER_QUERY_PARAM_NAME = 'page';
-export const DEFAULT_PAGE_SIZE = 10;
 export const VIEW_MODE_STORAGE_KEY = 'viewMode';
+export const FORM_AUTOCOMPLETE = [
+  'on',
+  'off',
+  'name',
+  'honorific-prefix',
+  'given-fullName',
+  'additional-fullName',
+  'family-fullName',
+  'honorific-suffix',
+  'nickname',
+  'email',
+  'username',
+  'new-password',
+  'current-password',
+  'one-time-code',
+  'organization-title',
+  'organization',
+  'street-address',
+  'address-line1',
+  'address-line2',
+  'address-line3',
+  'address-level4',
+  'address-level3',
+  'address-level2',
+  'address-level1',
+  'country',
+  'country-fullName',
+  'postal-code',
+  'cc-fullName',
+  'cc-given-fullName',
+  'cc-additional-fullName',
+  'cc-family-fullName',
+  'cc-number',
+  'cc-exp',
+  'cc-exp-month',
+  'cc-exp-year',
+  'cc-csc',
+] as const;

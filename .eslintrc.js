@@ -48,7 +48,7 @@ module.exports = {
         message:
           "Don't use Chakra's <Heading/> component. It creates an inconsistent UI with different heading sizes. Use <Text as='h1'/> instead.",
         selector:
-          'ImportDeclaration[source.value="@chakra-ui/react"] > ImportSpecifier[imported.name="Heading"]',
+          'ImportDeclaration[source.value="@chakra-ui/react"] > ImportSpecifier[imported.fullName="Heading"]',
       },
     ],
     'prettier/prettier': [

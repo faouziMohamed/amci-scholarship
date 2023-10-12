@@ -10,7 +10,7 @@ import {
 import { fullRegex } from '@/lib/utils';
 
 import DisplayResults from '@/Components/DisplayResults';
-import AppFormControl from '@/Components/TextField/AppFormControl';
+import CodeSearchFormControl from '@/Components/TextField/CodeSearchFormControl';
 import { ViewModeController } from '@/Components/ViewModeController';
 
 export default function SearchCodes() {
@@ -21,7 +21,7 @@ export default function SearchCodes() {
   return (
     <Stack w='100%' alignItems='center'>
       <ViewModeController />
-      <AppFormControl
+      <CodeSearchFormControl
         isRequired
         error={errors.codeOrName}
         register={register('codeOrName', {
@@ -41,11 +41,11 @@ export default function SearchCodes() {
           ],
         }}
       />
-      {!errors.codeOrName && typed && result?.totalCount && (
+      {!errors.codeOrName && typed && result?.currentCount && (
         <DisplayResults
           nextPage={result.nextPage}
           codes={result.codes || []}
-          totalCount={result.totalCount}
+          totalCount={result.currentCount}
         />
       )}
     </Stack>

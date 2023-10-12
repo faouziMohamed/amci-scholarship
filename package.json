@@ -36,6 +36,7 @@
     "eslint-config-next": "^13.5.4",
     "framer-motion": "^10.16.4",
     "next": "13.5.4",
+    "next-auth": "^4.23.2",
     "next-connect": "^1.0.0",
     "next-secure-headers": "^2.2.0",
     "next-sitemap": "^4.2.3",
@@ -43,7 +44,11 @@
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.47.0",
-    "react-icons": "^4.11.0"
+    "react-icons": "^4.11.0",
+    "react-stomp": "^5.1.0",
+    "sockjs": "^0.3.24",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
@@ -54,6 +59,8 @@
     "@types/node": "20.8.2",
     "@types/react": "18.2.24",
     "@types/react-dom": "18.2.10",
+    "@types/sockjs-client": "^1.5.2",
+    "@types/stompjs": "^2.3.6",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
     "eslint": "^8.50.0",

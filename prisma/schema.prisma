@@ -13,16 +13,16 @@ datasource db {
 model code {
   id              Int      @id @default(autoincrement())
   matricule       String
-  name            String
+  fullName        String
   country         String
-  amciCountryCode String   @map("amci_country_code")
+  periodCode      String   @map("amci_country_code")
   scholarshipCode String   @map("scholarchip_code")
   period          String
   numPassport     String   @map("num_passport")
   createdAt       DateTime @default(now()) @map("created_at")
 
-  @@unique([matricule, scholarshipCode], name: "matricule_scholarshipCode")
-  @@index([matricule], name: "matricule")
-  @@index([name], name: "name")
-  @@index([scholarshipCode], name: "scholarshipCode")
+  @@unique([matricule, scholarshipCode], fullName: "matricule_scholarshipCode")
+  @@index([matricule], fullName: "matricule")
+  @@index([name], fullName: "fullName")
+  @@index([scholarshipCode], fullName: "scholarshipCode")
 }

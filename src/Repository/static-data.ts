@@ -3,6 +3,8 @@ import { FaFacebookF } from 'react-icons/fa';
 import { RiInstagramFill } from 'react-icons/ri';
 import { TfiYoutube } from 'react-icons/tfi';
 
+import { SIGN_IN_PAGE, SIGNUP_PAGE } from '@/lib/client-route';
+
 export type FooterLinkData = {
   name: string;
   url: string;
@@ -10,37 +12,32 @@ export type FooterLinkData = {
 
 export type FooterLinks = Record<string, FooterLinkData[]>;
 export const footerLinks: FooterLinks = {
+  membres: [
+    { name: 'Connexion', url: SIGN_IN_PAGE },
+    { name: 'Activation du compte', url: SIGNUP_PAGE },
+  ],
+
   annexe: [
-    { name: 'ACEM Tech', url: 'http://acemtech.org/' },
-    { name: 'ACEM FaQ', url: 'http://acem-officiel.com/pages/AcemfaQ.php' },
+    { name: 'ACEM Tech', url: 'https://acemtech.org/' },
+    { name: 'ACEM FaQ', url: 'https://acem-officiel.com/pages/AcemfaQ.php' },
   ],
 
   viesEstudiantines: [
     {
       name: 'Enseignement supérieur',
-      url: 'http://acem-officiel.com/assets/docs/pdfs/Enseignement_superieur.pdf',
+      url: 'https://acem-officiel.com/assets/docs/pdfs/Enseignement_superieur.pdf',
     },
     {
       name: 'ENSA',
-      url: 'http://acem-officiel.com/pages/LesEnsa.php',
+      url: 'https://acem-officiel.com/pages/LesEnsa.php',
     },
     {
       name: 'Bourse AMCI',
-      url: 'http://acem-officiel.com/pages/amci.php',
+      url: 'https://acem-officiel.com/pages/amci.php',
     },
     {
       name: 'Assurance AMCI',
-      url: 'http://acem-officiel.com/pages/assurance.php',
-    },
-  ],
-  bibliotheque: [
-    {
-      name: 'Article',
-      url: 'http://acem-officiel.com/pages/article.php',
-    },
-    {
-      name: 'Documents',
-      url: 'http://acem-officiel.com/pages/document.php',
+      url: 'https://acem-officiel.com/pages/assurance.php',
     },
   ],
 };
@@ -48,11 +45,20 @@ export type ACEMSocialData = {
   link: string;
   Icon: IconType;
 };
-export const acemSocials: Record<string, ACEMSocialData> = {
-  facebook: { link: 'https://www.facebook.com/acemmaroc', Icon: FaFacebookF },
-  youtube: { link: 'https://www.youtube.com/@acemaroc', Icon: TfiYoutube },
+export const acemSocials = {
+  facebook: {
+    link: 'https://www.facebook.com/acemmaroc',
+    Icon: FaFacebookF,
+    handle: '@acemmaroc',
+  },
+  youtube: {
+    link: 'https://www.youtube.com/@acemaroc',
+    Icon: TfiYoutube,
+    handle: '@acemaroc',
+  },
   instagram: {
     link: 'https://www.instagram.com/acem_officiel',
     Icon: RiInstagramFill,
+    handle: '@acem_officiel',
   },
-};
+} as const;

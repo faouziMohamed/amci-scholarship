@@ -4,13 +4,10 @@ import {
   ScholarshipCode,
   ScholarshipCodeRow,
   ScholarshipPeriod,
-  scholarshipPeriods,
 } from '@/types/app.types';
 
-export const DEFAULT_PAGE_SIZE = 100;
 export const SEARCH_QUERY_PARAM_NAME = 'q';
 export const matriculeRegexp = /^\d{8}$/;
-export const nameRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+[a-zA-ZÀ-ÖØ-öø-ÿ\s\d-_]+$/;
 export const fullRegex =
   /^(\d{8}|^[a-zA-ZÀ-ÖØ-öø-ÿ\s][a-zA-ZÀ-ÖØ-öø-ÿ\s\d-_]*)$/;
 
@@ -25,14 +22,14 @@ export function updateUrlParams(
     const newParams = new URLSearchParams(searchParams);
     newParams.delete(SEARCH_QUERY_PARAM_NAME);
     const newUrl = `${pathname}?${newParams.toString()}`;
-    void router.replace(newUrl);
+    router.replace(newUrl);
     return;
   }
   const newParams = new URLSearchParams(searchParams);
   // just update the query params without reloading the page
   newParams.set(SEARCH_QUERY_PARAM_NAME, typed.trim());
   const newUrl = `${pathname}?${newParams.toString()}`;
-  void router.replace(newUrl);
+  router.replace(newUrl);
 }
 
 export function createAbortController() {
@@ -44,14 +41,6 @@ export function createAbortController() {
     abortSignal: abort,
     isSignalAborted: isAborted,
   };
-}
-
-export function getNextPage(page: number, count: number) {
-  return DEFAULT_PAGE_SIZE * (Number(page) + 1) < count ? Number(page) + 1 : -1;
-}
-
-export function isNotAPossibleMatricule(q: string) {
-  return q.at(0)?.match(/\d/) && (q.length > 8 || Number.isNaN(Number(q)));
 }
 
 export const capitalize = (str: string) =>
@@ -168,17 +157,15 @@ export function csvToScholarshipCode(
   period: ScholarshipPeriod,
 ) {
   const [country, matricule, name, , ,] = oneRow;
-  const [, , , numPassport, amciCountryCode, scholarshipCode] = oneRow;
-  const codeRow: ScholarshipCode & {
-    numPassport: string;
-  } = {
+  const [, , , numPassport, periodCode, scholarshipCode] = oneRow;
+  const codeRow: ScholarshipCode & { numPassport: string } = {
     country,
     matricule,
     name,
-    amciCountryCode,
+    periodCode,
     scholarshipCode,
     numPassport,
-    period: scholarshipPeriods[period],
+    period,
   };
   return codeRow;
 }
@@ -191,3 +178,9 @@ export const csvFormat = [
   'Code du bourse (partie 1)',
   'Code du bourse (partie 2)',
 ] as const;
+
+export const { log } = console;
+export const ROLE_ID_OF = {
+  USER: 0,
+  ADMIN: 1,
+} as const;

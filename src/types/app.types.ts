@@ -1,15 +1,5 @@
-export type ScholarshipCode = {
-  country: string;
-  matricule: string;
-  name: string;
-  amciCountryCode: string;
-  scholarshipCode: string;
-  period: string;
-};
+import { FORM_AUTOCOMPLETE } from '@/lib/utils.constant';
 
-export type ScholarshipCodeWithPassport = ScholarshipCode & {
-  numPassport: string;
-};
 export const scholarshipPeriods = {
   septembre: 'Septembre/Octobre',
   novembre: 'Novembre/Décembre',
@@ -18,24 +8,114 @@ export const scholarshipPeriods = {
   mai: 'Mai/Juin',
   Juin: 'Juillet/Août',
 } as const;
+
 export type ScholarshipPeriod = keyof typeof scholarshipPeriods;
 export type ScholarshipPeriodValue =
   (typeof scholarshipPeriods)[ScholarshipPeriod];
 
+export type ScholarshipCode = {
+  country: string;
+  matricule: string;
+  name: string;
+  periodCode: string;
+  scholarshipCode: string;
+  period: ScholarshipPeriod;
+};
+
+export type ScholarshipCodeWithPassport = ScholarshipCode & {
+  numPassport: string;
+};
+
+type ScholarshipCodeFromServer = {
+  id: number;
+  scholarshipCode: string;
+  periodCode: string;
+  period: ScholarshipPeriod;
+  matricule: string;
+  name: string;
+  country: string;
+  passport: string;
+  createdAt: string;
+};
+export type PaginatedScholarshipCode = {
+  timestamp?: string;
+  codes: ScholarshipCodeFromServer[];
+  totalCodes: number;
+  totalPages: number;
+  nextPage: number;
+  pageSize: number;
+  currentCount: number;
+};
+
 export type FetchedCodes = {
-  codes: ScholarshipCode[];
+  codes: ScholarshipCodeFromServer[];
   totalCount: number;
   nextPage: number;
 };
 export type ViewMode = 'list' | 'grid';
-export const VIEW_MODE_QUERY_NAME = 'view';
-export const VIEW_MODE_STORAGE_KEY = 'viewMode';
 export type ScholarshipCodeRow = [
   country: string,
   matricule: string,
   name: string,
   numPassport: string,
-  amciCountryCode: string,
+  periodCode: string,
   scholarchipCode: string,
   period: ScholarshipPeriod,
 ];
+
+export type FormAutocomplete = (typeof FORM_AUTOCOMPLETE)[number];
+
+export type ApiErrorResponse = {
+  timestamp?: string;
+  message: string;
+  statusCode: number;
+};
+
+export type UserRole = 'ADMIN' | 'USER';
+export const userRoleValue: Record<UserRole, string> = {
+  ADMIN: 'Administrateur',
+  USER: 'Membre',
+} as const;
+
+export type AppUser = {
+  id: number;
+  matricule: string;
+  email: string;
+  name: string;
+  avatarUrl: string | null;
+  role: UserRole;
+  isEmailVerified?: string;
+  profession?: string | null;
+  description?: string | null;
+};
+export type AppUserWithToken = AppUser & {
+  token: string;
+  tokenExpirationDate: string;
+};
+export type LoginResponse = {
+  timestamp?: string;
+  user: AppUser;
+  jwtToken: string;
+  tokenExpirationDate: string;
+};
+
+export type RegistrationBody = {
+  email: string;
+  password: string;
+  passportNumber: string;
+  matricule: string;
+};
+
+export type RegistrationResponse = {
+  timestamp?: string;
+  userId: number;
+  email: string;
+};
+
+export type LoginBody = {
+  email: string;
+  password: string;
+};
+type AuthAction = 'SIGN_IN' | 'SIGN_UP';
+export type AuthSignIn = LoginBody & { action: AuthAction };
+export type AuthSignUp = RegistrationBody & { action: 'SIGN_UP' };

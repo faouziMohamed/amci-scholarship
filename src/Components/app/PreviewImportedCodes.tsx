@@ -27,7 +27,10 @@ import {
 } from '@/Components/componentFactory';
 import { evenRowsBg, oddRowsBg } from '@/Components/TableStyles';
 
-import { ScholarshipCodeWithPassport } from '@/types/app.types';
+import {
+  ScholarshipCodeWithPassport,
+  scholarshipPeriods,
+} from '@/types/app.types';
 
 const DEFAULT_ROW_COUNT_PREVIEW = 100;
 export const PICK = Number(
@@ -142,9 +145,7 @@ export function PreviewImportedCodes({
                 key={code.matricule}
                 title={getRowTitle(code)}
               >
-                <Td title={getScholarshipCodeTitle(code)}>
-                  {code.amciCountryCode}
-                </Td>
+                <Td title={getScholarshipCodeTitle(code)}>{code.periodCode}</Td>
                 <Td
                   title={getScholarshipCodeTitle(code)}
                   // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -163,7 +164,7 @@ export function PreviewImportedCodes({
                     {formatNumber(code.scholarshipCode, ' ')}
                   </chakra.span>
                 </Td>
-                <Td>{code.period}</Td>
+                <Td>{scholarshipPeriods[code.period]}</Td>
                 <Td>{code.matricule}</Td>
                 <Td>{capitalizeEachWord(code.name)}</Td>
                 <Td>{capitalizeEachWord(code.country)}</Td>

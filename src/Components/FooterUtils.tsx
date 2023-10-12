@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from '@chakra-ui/next-js';
-import { Box, chakra, Text } from '@chakra-ui/react';
+import { Box, Icon, Text } from '@chakra-ui/react';
 import { AiOutlineRight } from 'react-icons/ai';
 import { GoLocation } from 'react-icons/go';
 import { HiOutlineMail } from 'react-icons/hi';
@@ -10,10 +10,6 @@ import { camelCaseToTitleCase, capitalize } from '@/lib/utils';
 
 import UnderlineLink from '@/Components/Links/UnderlineLink';
 import { ACEMSocialData, FooterLinkData } from '@/Repository/static-data';
-
-const AngleRight = chakra(AiOutlineRight);
-const Location = chakra(GoLocation);
-const Email = chakra(HiOutlineMail);
 
 export function FooterTitle({ title }: { title: string }) {
   return (
@@ -25,7 +21,8 @@ export function FooterTitle({ title }: { title: string }) {
       fontSize='1.1rem'
     >
       {camelCaseToTitleCase(title, 'uppercase')}
-      <chakra.span
+      <Box
+        as='span'
         position='absolute'
         inset={0}
         bottom='0.6rem'
@@ -49,7 +46,7 @@ export function FooterLink({ link }: { link: FooterLinkData }) {
       gap='0.5rem'
       alignItems='center'
     >
-      <AngleRight />
+      <AiOutlineRight />
       <Box as='span'>{link.name}</Box>
     </UnderlineLink>
   );
@@ -67,7 +64,7 @@ export function EmailLink() {
       gap='0.5rem'
       alignItems='center'
     >
-      <Email w='1.3rem' h='1.2rem' />
+      <Icon as={HiOutlineMail} w='1.3rem' h='1.2rem' />
       <Box as='span'>acemaroc@gmail.com</Box>
     </UnderlineLink>
   );
@@ -100,7 +97,7 @@ export function AddressLocation() {
       alignItems='center'
       fontSize='0.88rem'
     >
-      <Location display='inline-block' />
+      <Icon as={GoLocation} display='inline-block' />
       <Box as='span' pl='0.5rem' display='inline-block'>
         Avenue Des FAR - Hay Riad - Rabat Maroc
       </Box>

@@ -26,7 +26,9 @@ const nextConfig = {
   },
   // chakra ui
   transpilePackages: ['@chakra-ui/react', '@chakra-ui/icons', 'react-icons'],
-
+  images: {
+    domains: ['avatars.githubusercontent.com'],
+  },
   async headers() {
     return [
       {

@@ -3,6 +3,7 @@
 import { Link } from '@chakra-ui/next-js';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
+import { HOME_PAGE } from '@/lib/client-route';
 import { capitalize } from '@/lib/utils';
 
 import { CkAcemLogo } from '@/Components/CkAcemLogo';
@@ -27,7 +28,9 @@ export default function Header() {
         gap='1rem'
         textAlign='center'
       >
-        <CkAcemLogo w='7rem' h='7rem' p={0} m={0} flexShrink='0' />
+        <Link href={HOME_PAGE}>
+          <CkAcemLogo w='7rem' h='7rem' p={0} m={0} flexShrink='0' />
+        </Link>
         <Text as='h2' fontWeight='600' fontSize='1.6rem'>
           Association des Comoriens Étudiant au Maroc
         </Text>
