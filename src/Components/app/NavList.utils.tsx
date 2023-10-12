@@ -12,8 +12,19 @@ import {
   SETTINGS_PAGE,
   USERS_PAGE,
 } from '@/lib/client-route';
-import { ROLE_ID_OF } from '@/lib/utils';
+import { log, ROLE_ID_OF } from '@/lib/utils';
 
+const genSequences = () => {
+  let i = -1;
+  log('Creating a new sequence generator');
+  return () => {
+    log('Generating a new id', i + 1);
+    // eslint-disable-next-line no-plusplus
+    return ++i;
+  };
+};
+
+export const genId = genSequences();
 export const navList: {
   name: string;
   icon: IconType;
@@ -23,42 +34,42 @@ export const navList: {
   isLogout?: boolean;
 }[] = [
   {
-    id: 0,
+    id: genId(),
     name: 'Tableau de bord',
     icon: MdSpaceDashboard,
     href: DASHBOARD_PAGE,
     minRole: ROLE_ID_OF.ADMIN,
   },
   {
-    id: 0,
+    id: genId(),
     name: 'Profile',
     icon: FaUser,
     href: PROFILE_PAGE,
     minRole: ROLE_ID_OF.USER,
   },
   {
-    id: 1,
+    id: genId(),
     name: 'Codes de la bourse',
     icon: AiOutlineNumber,
     href: CODES_PAGE,
     minRole: ROLE_ID_OF.ADMIN,
   },
   {
-    id: 2,
+    id: genId(),
     name: 'Utilisateurs',
     icon: HiUsers,
     href: USERS_PAGE,
     minRole: ROLE_ID_OF.ADMIN,
   },
   {
-    id: 3,
+    id: genId(),
     name: 'Mon compte',
     icon: MdManageAccounts,
     href: SETTINGS_PAGE,
     minRole: ROLE_ID_OF.USER,
   },
   {
-    id: 4,
+    id: genId(),
     name: 'Déconnexion',
     icon: IoLogOut,
     href: '/logout',
