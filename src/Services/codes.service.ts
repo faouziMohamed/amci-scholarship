@@ -1,9 +1,14 @@
 import {
   getCodesByMatriculeRoute,
+  IMPORT_HISTORY_ROUTE,
   searchCodeByMatriculeOrNameAndPeriodRoute,
 } from '@/lib/server-route';
 
-import { PaginatedScholarshipCode, ScholarshipPeriod } from '@/types/app.types';
+import {
+  ImportHistory,
+  PaginatedScholarshipCode,
+  ScholarshipPeriod,
+} from '@/types/app.types';
 
 export const defaultPaginatedScholarshipCode: PaginatedScholarshipCode = {
   codes: [],
@@ -51,4 +56,16 @@ export async function getCodesByMatricule(
     return defaultPaginatedScholarshipCode;
   }
   return (await response.json()) as PaginatedScholarshipCode;
+}
+
+export async function getImportHistory(
+  token: string,
+): Promise<ImportHistory[]> {
+  const response = await fetch(IMPORT_HISTORY_ROUTE, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!response.ok) {
+    return [];
+  }
+  return (await response.json()) as ImportHistory[];
 }

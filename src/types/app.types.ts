@@ -5,8 +5,8 @@ export const scholarshipPeriods = {
   novembre: 'Novembre/Décembre',
   janvier: 'Janvier/Février',
   mars: 'Mars/Avril',
-  mai: 'Mai/Juin',
-  Juin: 'Juillet/Août',
+  mai: 'Mai/juin',
+  juin: 'Juillet/Août',
 } as const;
 
 export type ScholarshipPeriod = keyof typeof scholarshipPeriods;
@@ -119,3 +119,24 @@ export type LoginBody = {
 type AuthAction = 'SIGN_IN' | 'SIGN_UP';
 export type AuthSignIn = LoginBody & { action: AuthAction };
 export type AuthSignUp = RegistrationBody & { action: 'SIGN_UP' };
+export type AppStats = {
+  regularUsersCount: number;
+  usersCount: number;
+  adminsCount: number;
+  matriculesCount: number;
+  codesCount: number;
+  usersWithCodesCount: number;
+  usersWithoutCodesCount: number;
+  importHistoryCount: number;
+  importHistorySuccessCount: number;
+  importHistoryFailedCount: number;
+};
+
+export type ImportStatus = 'SUCCESS' | 'FAILURE';
+export type ImportHistory = {
+  id: number;
+  importDate: string;
+  nbAdded: number;
+  status: ImportStatus;
+  importedBy: AppUser;
+};

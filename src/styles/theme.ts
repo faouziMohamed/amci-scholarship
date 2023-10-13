@@ -14,6 +14,7 @@ const breakpoints = {
   sm: '30rem', // 480px
   xsm: '30.313rem', // 485px
   // "529px": '33.063rem', // 529px
+  sidebar: '34.25rem', // 548px
   md: '48rem', // 768px
   xmd: '52rem', // 832px
   // xmd: '53.563rem', // 847px

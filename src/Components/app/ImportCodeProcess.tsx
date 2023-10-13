@@ -38,6 +38,7 @@ export function ImportCodeProcess() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useCopyToClipBoardToast();
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -74,11 +75,6 @@ export function ImportCodeProcess() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ codes, period }),
       });
-      // stompClient.send(
-      //   '/app/codes.add',
-      //   {},
-      //   JSON.stringify({ codes: codes.slice(0, 100), period }),
-      // );
 
       if (response.ok) {
         toast({

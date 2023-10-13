@@ -5,9 +5,11 @@ const BACKEND_BASE_API_URL =
 
 export const BACKEND_API_ROUTE = `${BACKEND_BASE_API_URL}/api/v1`;
 
+export const STATS_ROUTE = `${BACKEND_API_ROUTE}/stats`;
 export const POST_CODES_ROUTE = `${BACKEND_API_ROUTE}/codes`;
 export const SIGN_IN_ROUTE = `${BACKEND_API_ROUTE}/auth/login`;
 export const SIGN_UP_ROUTE = `${BACKEND_API_ROUTE}/auth/register`;
+export const IMPORT_HISTORY_ROUTE = `${BACKEND_API_ROUTE}/import-history`;
 
 export const getUserRoute = (id: number) => `${BACKEND_API_ROUTE}/users/${id}`;
 

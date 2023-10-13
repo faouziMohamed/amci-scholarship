@@ -16,7 +16,7 @@ import {
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 
-import { SIGN_IN_PAGE } from '@/lib/client-route';
+import { HOME_PAGE, SIGN_IN_PAGE } from '@/lib/client-route';
 import { capitalizeEachWord, log, ROLE_ID_OF } from '@/lib/utils';
 
 import { navList } from '@/Components/app/NavList.utils';
@@ -93,7 +93,9 @@ function SideBar({
       overflowY='auto'
     >
       <Stack spacing={5}>
-        <CkAcemLogo w='3rem' />
+        <Link href={HOME_PAGE}>
+          <CkAcemLogo w='3rem' />
+        </Link>
         <SideBarUserInfo name={fullName} role={role} />
         <Divider opacity={0.4} />
         <List w='100%'>

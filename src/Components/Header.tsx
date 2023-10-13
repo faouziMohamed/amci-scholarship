@@ -1,15 +1,17 @@
 'use client';
 
 import { Link } from '@chakra-ui/next-js';
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { useSession } from 'next-auth/react';
 
-import { HOME_PAGE } from '@/lib/client-route';
+import { HOME_PAGE, PROFILE_PAGE, SIGN_IN_PAGE } from '@/lib/client-route';
 import { capitalize } from '@/lib/utils';
 
 import { CkAcemLogo } from '@/Components/CkAcemLogo';
 import { acemSocials } from '@/Repository/static-data';
 
 export default function Header() {
+  const { status } = useSession();
   return (
     <Box
       as='header'
@@ -36,6 +38,15 @@ export default function Header() {
         </Text>
       </Flex>
       <Flex justifyContent='flex-end' alignItems='center' gap='0.5rem'>
+        {status === 'authenticated' ? (
+          <Button as={Link} href={PROFILE_PAGE} colorScheme='gray'>
+            Profile
+          </Button>
+        ) : (
+          <Button as={Link} href={SIGN_IN_PAGE} colorScheme='gray'>
+            Se connecter
+          </Button>
+        )}
         {Object.entries(acemSocials).map(([title, social]) => (
           <Link
             key={social.link}

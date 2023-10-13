@@ -12,13 +12,11 @@ import {
   SETTINGS_PAGE,
   USERS_PAGE,
 } from '@/lib/client-route';
-import { log, ROLE_ID_OF } from '@/lib/utils';
+import { ROLE_ID_OF } from '@/lib/utils';
 
 const genSequences = () => {
   let i = -1;
-  log('Creating a new sequence generator');
   return () => {
-    log('Generating a new id', i + 1);
     // eslint-disable-next-line no-plusplus
     return ++i;
   };

@@ -184,3 +184,66 @@ export const ROLE_ID_OF = {
   USER: 0,
   ADMIN: 1,
 } as const;
+
+export function formattedDate(date: Date | string) {
+  const dateToFormat = new Date(date);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  };
+  return dateToFormat.toLocaleDateString('fr-FR', options);
+}
+
+//  public static ScholarshipPeriod getCurrentScholarshipPeriod() {
+//     ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
+//     int month = now.getMonthValue();
+//
+//     return switch (month) {
+//       case SEPTEMBER, OCTOBER -> ScholarshipPeriod.SEPTEMBRE;
+//       case JANUARY, FEBRUARY -> ScholarshipPeriod.JANVIER;
+//       case MARCH, APRIL -> ScholarshipPeriod.MARS;
+//       case MAY, JUNE -> ScholarshipPeriod.MAI;
+//       case JULY, AUGUST -> ScholarshipPeriod.JUIN;
+//       default -> throw new IllegalStateException("Unexpected value: " + month);
+//     };
+//   }
+const MonthsEnum = {
+  JANUARY: 1,
+  FEBRUARY: 2,
+  MARCH: 3,
+  APRIL: 4,
+  MAY: 5,
+  JUNE: 6,
+  JULY: 7,
+  AUGUST: 8,
+  SEPTEMBER: 9,
+  OCTOBER: 10,
+  NOVEMBER: 11,
+  DECEMBER: 12,
+} as const;
+
+export function getCurrentScholarshipPeriod(): ScholarshipPeriod {
+  const now = new Date();
+  const month = now.getMonth();
+  switch (month) {
+    case MonthsEnum.SEPTEMBER:
+    case MonthsEnum.OCTOBER:
+      return 'septembre';
+    case MonthsEnum.JANUARY:
+    case MonthsEnum.FEBRUARY:
+      return 'janvier';
+    case MonthsEnum.MARCH:
+    case MonthsEnum.APRIL:
+      return 'mars';
+    case MonthsEnum.MAY:
+    case MonthsEnum.JUNE:
+      return 'mai';
+    case MonthsEnum.JULY:
+    case MonthsEnum.AUGUST:
+      return 'juin';
+    default:
+      throw new Error(`Unexpected value: ${month}`);
+  }
+}
