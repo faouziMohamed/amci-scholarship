@@ -37,3 +37,10 @@ export const searchCodeByMatriculeOrNameAndPeriodRoute = (
   params.append('size', size.toString());
   return `${BACKEND_API_ROUTE}/codes/search?${params.toString()}`;
 };
+
+export const getUserListRoute = (page: number = 0, size: number = 10) => {
+  const params = new URLSearchParams();
+  params.append('page', page.toString());
+  params.append('size', size.toString());
+  return `${BACKEND_API_ROUTE}/users?${params.toString()}`;
+};

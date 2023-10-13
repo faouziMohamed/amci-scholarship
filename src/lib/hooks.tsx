@@ -4,6 +4,7 @@ import { FieldErrors, useForm } from 'react-hook-form';
 
 import {
   createAbortController,
+  getCurrentScholarshipPeriod,
   removeExtraSpaces,
   updateUrlParams,
 } from '@/lib/utils';
@@ -43,6 +44,7 @@ export function useFetchedCodes(
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const typed = removeExtraSpaces(str);
+  const currentPeriod = getCurrentScholarshipPeriod();
   useEffect(() => {
     // use abort signal to cancel ongoing fetch when the user types something new
     const abort = createAbortController();
@@ -60,18 +62,22 @@ export function useFetchedCodes(
       updateUrlParams(typed, router, pathname, searchParams);
     }
 
-    void searchCodes(typed.trim(), 'septembre', controller.signal, 0, 10).then(
-      (data) => {
-        if (!isSignalAborted()) {
-          // Trigger re-render in every case
-          setResult(data);
-        }
-        return null;
-      },
-    );
+    void searchCodes(
+      typed.trim(),
+      currentPeriod,
+      controller.signal,
+      0,
+      10,
+    ).then((data) => {
+      if (!isSignalAborted()) {
+        // Trigger re-render in every case
+        setResult(data);
+      }
+      return null;
+    });
 
     return abortSignal;
-  }, [errors.codeOrName, pathname, router, searchParams, typed]);
+  }, [currentPeriod, errors.codeOrName, pathname, router, searchParams, typed]);
   return result;
 }
 

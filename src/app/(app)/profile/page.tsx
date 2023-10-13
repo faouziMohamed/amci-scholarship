@@ -4,6 +4,8 @@
 
 import { Link } from '@chakra-ui/next-js';
 import {
+  Alert,
+  AlertIcon,
   Avatar,
   chakra,
   Flex,
@@ -178,6 +180,51 @@ function ProfilePageContent({ user }: { user: AppUserWithToken }) {
         flexGrow={1}
         overflowX={{ lg: 'auto' }}
       >
+        <ElevatedContainer>
+          <Alert
+            as={ElevatedContainer}
+            alignItems='flex-start'
+            flexDirection='row'
+            rounded='md'
+            status='success'
+          >
+            <AlertIcon />
+            <Text>
+              Vous êtes parmi les premiers à utiliser cette plateforme, nous ne
+              manquerons pas de vous informer de l&apos;évolution de cette
+              plateforme.
+            </Text>
+          </Alert>
+
+          <Alert
+            as={ElevatedContainer}
+            alignItems='flex-start'
+            flexDirection='row'
+            rounded='md'
+            status='info'
+          >
+            <AlertIcon />
+            <Text>
+              Vous receverais des notifications personels ici et dans un futur
+              proche vous pourrez{' '}
+              <Text as='span' color='primary.main' fontWeight={500}>
+                communiquer avec d&apos;autres membres
+              </Text>{' '}
+              du plateforme
+            </Text>
+          </Alert>
+          <Alert
+            as={ElevatedContainer}
+            alignItems='flex-start'
+            flexDirection='row'
+            rounded='md'
+            status='warning'
+            colorScheme='twitter'
+          >
+            <AlertIcon />
+            <Text>Vos retours nous seront du plus grand plaisir!</Text>
+          </Alert>
+        </ElevatedContainer>
         <ElevatedContainer px='0.2rem'>
           <Heading px='1rem' fontSize='1rem' as='h2'>
             <Icon as={BsFillPinAngleFill} />

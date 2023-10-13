@@ -3,7 +3,12 @@
 //   getUserRoute,
 //   LOGIN_ROUTE,
 // } from '@/services/api-endpoints';
-import { getUserRoute, SIGN_IN_ROUTE, SIGN_UP_ROUTE } from '@/lib/server-route';
+import {
+  getUserListRoute,
+  getUserRoute,
+  SIGN_IN_ROUTE,
+  SIGN_UP_ROUTE,
+} from '@/lib/server-route';
 
 import {
   ApiErrorResponse,
@@ -125,6 +130,25 @@ export async function updateUser(
     return errRes;
   }
   return (await response.json()) as AppUser;
+}
+
+export async function getUsers(
+  token: string,
+  page: number,
+  size: number,
+): Promise<AppUser[]> {
+  const url = getUserListRoute(page, size);
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!response.ok) {
+    const errRes = (await response.json()) as ApiErrorResponse;
+    const msg =
+      errRes.message ||
+      'Impossible de récupérer la liste des utilisateurs pour le moment';
+    throw new Error(msg);
+  }
+  return (await response.json()) as AppUser[];
 }
 
 // export function useUser(userId: number, token: string) {

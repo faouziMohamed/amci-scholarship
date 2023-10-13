@@ -247,3 +247,11 @@ export function getCurrentScholarshipPeriod(): ScholarshipPeriod {
       throw new Error(`Unexpected value: ${month}`);
   }
 }
+
+export function genSequences(startAt = 0) {
+  let i = startAt;
+  return () => {
+    // eslint-disable-next-line no-plusplus
+    return i++;
+  };
+}

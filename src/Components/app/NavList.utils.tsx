@@ -12,15 +12,7 @@ import {
   SETTINGS_PAGE,
   USERS_PAGE,
 } from '@/lib/client-route';
-import { ROLE_ID_OF } from '@/lib/utils';
-
-const genSequences = () => {
-  let i = -1;
-  return () => {
-    // eslint-disable-next-line no-plusplus
-    return ++i;
-  };
-};
+import { genSequences, ROLE_ID_OF } from '@/lib/utils';
 
 export const genId = genSequences();
 export const navList: {
