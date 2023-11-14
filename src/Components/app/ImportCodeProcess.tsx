@@ -14,7 +14,7 @@ import { useCallback, useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
-import { POST_CODES_ROUTE } from '@/lib/server-route';
+import { POST_CODES_ROUTE, WEB_SOCKET_URL } from '@/lib/server-route';
 import { log } from '@/lib/utils';
 
 import { PreviewImportedCodes } from '@/Components/app/PreviewImportedCodes';
@@ -28,7 +28,7 @@ import {
 } from '@/types/app.types';
 
 function crateWebsocketConnection() {
-  const socket = new SockJS('http://localhost:8080/ws');
+  const socket = new SockJS(WEB_SOCKET_URL);
   return Stomp.over(socket);
 }
 
