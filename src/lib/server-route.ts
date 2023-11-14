@@ -4,7 +4,7 @@ const BACKEND_BASE_API_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL! || 'http://localhost:8080';
 
 export const BACKEND_API_ROUTE = `${BACKEND_BASE_API_URL}/api/v1`;
-
+export const WEB_SOCKET_URL = `${BACKEND_BASE_API_URL}/ws`;
 export const STATS_ROUTE = `${BACKEND_API_ROUTE}/stats`;
 export const POST_CODES_ROUTE = `${BACKEND_API_ROUTE}/codes`;
 export const SIGN_IN_ROUTE = `${BACKEND_API_ROUTE}/auth/login`;

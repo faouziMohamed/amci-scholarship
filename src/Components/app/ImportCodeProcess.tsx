@@ -9,11 +9,12 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { useSession } from 'next-auth/react';
 import { useCallback, useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
-import { POST_CODES_ROUTE } from '@/lib/server-route';
+import { POST_CODES_ROUTE, WEB_SOCKET_URL } from '@/lib/server-route';
 import { log } from '@/lib/utils';
 
 import { PreviewImportedCodes } from '@/Components/app/PreviewImportedCodes';
@@ -27,7 +28,7 @@ import {
 } from '@/types/app.types';
 
 function crateWebsocketConnection() {
-  const socket = new SockJS('http://localhost:8080/ws');
+  const socket = new SockJS(WEB_SOCKET_URL);
   return Stomp.over(socket);
 }
 
@@ -38,7 +39,8 @@ export function ImportCodeProcess() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useCopyToClipBoardToast();
   const [mounted, setMounted] = useState(false);
-
+  const { data: session } = useSession();
+  const { user } = session!;
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -72,7 +74,10 @@ export function ImportCodeProcess() {
     try {
       const response = await fetch(POST_CODES_ROUTE, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
         body: JSON.stringify({ codes, period }),
       });
 
@@ -101,7 +106,7 @@ export function ImportCodeProcess() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [codes, period, toast]);
+  }, [codes, period, toast, user.token]);
 
   return (
     <Accordion w='100%' allowMultiple defaultIndex={[0, 1]}>

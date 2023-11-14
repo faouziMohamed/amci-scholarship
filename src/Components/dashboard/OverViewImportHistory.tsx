@@ -13,7 +13,7 @@ export function OverViewImportHistory({ stats }: { stats: AppStats }) {
     stats.importHistorySuccessCount || 0,
     stats.importHistoryFailedCount || 0,
   ];
-  const chartOptions = useChartOptions(defaultLabels);
+  const chartOptions = getChartOptions(defaultLabels);
   return (
     <Card flexGrow='1' w={{ base: '100%', xlg: 'auto' }}>
       <CardBody>
@@ -29,7 +29,7 @@ export function OverViewImportHistory({ stats }: { stats: AppStats }) {
   );
 }
 
-function useChartOptions(labels: string[]): ApexOptions {
+function getChartOptions(labels: string[]): ApexOptions {
   return {
     chart: {
       background: 'transparent',
