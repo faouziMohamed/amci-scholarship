@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/faouziMohamed/amci-scholarship/compare/v0.1.1...v1.0.0) (2023-11-14)
+
+
+### Bug Fixes
+
+* add websocket true url ([c6447c9](https://github.com/faouziMohamed/amci-scholarship/commit/c6447c9ee7f8f538c056406c6798e5755c77e94e))
+* deploy to Vercel ([d0273b0](https://github.com/faouziMohamed/amci-scholarship/commit/d0273b0fe2942b313406f06beca3566c172155c7))
+* update packages and fix dashboard error on prod build ([a3be5d9](https://github.com/faouziMohamed/amci-scholarship/commit/a3be5d9f7d0429f8eadcf5c2c7409a0714cd2693))
+
 ### 0.1.1 (2023-11-14)
 
 
