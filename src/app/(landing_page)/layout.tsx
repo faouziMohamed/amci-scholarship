@@ -9,6 +9,7 @@ import { ChakraProviders } from '@/Components/react-contexts/ChakraProviders';
 import NextAuthSessionProvider from '@/Components/react-contexts/NextAuthProvider';
 import { fontsVariables } from '@/styles/fonts';
 
+export { viewport } from '@/lib/seo.utils';
 export { metadata } from '@/lib/seo.utils';
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

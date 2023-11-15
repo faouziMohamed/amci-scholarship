@@ -13,6 +13,7 @@ import NextAuthSessionProvider, {
 import { SidebarContextProvider } from '@/Components/react-contexts/SidebarContextProvider';
 import { fontsVariables } from '@/styles/fonts';
 
+export { viewport } from '@/lib/seo.utils';
 export const metadata: Metadata = {
   ...defaultMetadata,
 };

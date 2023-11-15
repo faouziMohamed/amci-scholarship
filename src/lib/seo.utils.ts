@@ -1,6 +1,8 @@
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 
 import { SITE_URL } from '@/lib/client-route';
+
+import { appCcolors } from '@/styles/theme-config';
 
 export const seoTemplate = {
   title: 'Code du bourse AMCI | Association des Comoriens Étudiant au Maroc',
@@ -29,15 +31,16 @@ export const seoTemplate = {
     'maroc',
   ].join(', '),
 };
-
+export const viewport: Viewport = {
+  themeColor: appCcolors.primary.main,
+  colorScheme: 'light',
+};
 export const metadata: Metadata = {
   title: 'Bourse AMCI | Association des Comoriens Étudiant au Maroc',
   applicationName: seoTemplate.siteName,
   referrer: 'origin-when-cross-origin',
   authors: [{ name: 'Faouzi Mohamed' }],
   metadataBase: new URL(SITE_URL),
-  colorScheme: 'light',
-  themeColor: '#005A87',
   description: 'Bourse AMCI | Association des Comoriens Étudiant au Maroc',
   keywords: seoTemplate.keywords,
   category: 'Education',
