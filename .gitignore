@@ -10,7 +10,7 @@ next-env.d.ts
 # next.js
 /.next/
 /out/
-.env
+.env.local
 # production
 /build
 
@@ -56,3 +56,4 @@ sitemap.xml
 /git-filter-repo
 /.idea/dataSources/
 
+/.env

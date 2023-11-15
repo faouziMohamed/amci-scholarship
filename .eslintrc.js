@@ -23,13 +23,12 @@ module.exports = {
     'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'next/core-web-vitals',
+    // 'plugin:unicorn/recommended',
     'plugin:promise/recommended',
     'plugin:prettier/recommended',
     'prettier',
   ],
   rules: {
-    // 'no-unused-vars': 'off',
     'no-console': 'warn',
     'no-alert': 'error',
     'no-empty': 'error',
@@ -48,7 +47,7 @@ module.exports = {
         message:
           "Don't use Chakra's <Heading/> component. It creates an inconsistent UI with different heading sizes. Use <Text as='h1'/> instead.",
         selector:
-          'ImportDeclaration[source.value="@chakra-ui/react"] > ImportSpecifier[imported.name="Heading"]',
+          'ImportDeclaration[source.value="@chakra-ui/react"] > ImportSpecifier[imported.fullName="Heading"]',
       },
     ],
     'prettier/prettier': [

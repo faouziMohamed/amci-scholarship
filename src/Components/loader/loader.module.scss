@@ -1,0 +1,32 @@
+.spinner {
+  --border-width: 9px;
+
+  height: 8.125rem;
+  width: 8.125rem;
+  border-radius: 50%;
+
+  --mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - var(--border-width) - 0.5px),
+    #000 calc(100% - var(--border-width) + 0.5px)
+  );
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+  position: relative;
+  /* we're using two half linear-gradient which is masked by the radial-gradient */
+  background:
+    linear-gradient(to top, rgba(255, 62, 78, 1), rgba(255, 62, 78, 0.54)) 100%
+      0/50% 100% no-repeat,
+    linear-gradient(rgba(255, 62, 78, 0.54) 50%, transparent 95%) 0 0/50% 100%
+      no-repeat;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

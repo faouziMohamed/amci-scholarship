@@ -30,7 +30,7 @@ export function getRowTitle(code: ScholarshipCode) {
 export function getScholarshipCodeTitle(code: ScholarshipCode) {
   return (
     'Cliquez pour copier le code dans le presse-papier ' +
-    `${code.amciCountryCode}/${code.scholarshipCode}`
+    `${code.periodCode}/${code.scholarshipCode}`
   );
 }
 
@@ -39,14 +39,14 @@ export function copyCodeToClipboard(
   toast: (opt?: UseToastOptions) => ToastId,
 ) {
   return async () => {
-    const toCopy = `${code.amciCountryCode}/${code.scholarshipCode}`;
+    const toCopy = `${code.periodCode}/${code.scholarshipCode}`;
     await copyToClipboard(toCopy);
     toast();
   };
 }
 
 export function getFormattedScholarshipCode(code: ScholarshipCode) {
-  return `${code.amciCountryCode} / ${formatNumber(code.scholarshipCode)}`;
+  return `${code.periodCode} / ${formatNumber(code.scholarshipCode)}`;
 }
 
 export function getListAriaLabel(totalCount: number) {

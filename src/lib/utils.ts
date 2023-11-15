@@ -1,15 +1,15 @@
 import { ReadonlyURLSearchParams, useRouter } from 'next/navigation';
 
 import {
-  CODES_QUERY_PARAM_NAME,
-  DEFAULT_PAGE_SIZE,
-} from '@/lib/utils.constant';
+  ScholarshipCode,
+  ScholarshipCodeRow,
+  ScholarshipPeriod,
+} from '@/types/app.types';
 
+export const SEARCH_QUERY_PARAM_NAME = 'q';
 export const matriculeRegexp = /^\d{8}$/;
-export const nameRegex = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+[a-zA-ZÀ-ÖØ-öø-ÿ\s\d-_]+$/;
 export const fullRegex =
-  /^(\d{2,8}|^[a-zA-ZÀ-ÖØ-öø-ÿ\s][a-zA-ZÀ-ÖØ-öø-ÿ\s\d-_]*)$/;
-// The above regex mat
+  /^(\d{8}|^[a-zA-ZÀ-ÖØ-öø-ÿ\s][a-zA-ZÀ-ÖØ-öø-ÿ\s\d-_]*)$/;
 
 export function updateUrlParams(
   str: string,
@@ -20,16 +20,16 @@ export function updateUrlParams(
   const typed = str.trim();
   if (!typed.trim()) {
     const newParams = new URLSearchParams(searchParams);
-    newParams.delete(CODES_QUERY_PARAM_NAME);
+    newParams.delete(SEARCH_QUERY_PARAM_NAME);
     const newUrl = `${pathname}?${newParams.toString()}`;
-    void router.replace(newUrl);
+    router.replace(newUrl);
     return;
   }
   const newParams = new URLSearchParams(searchParams);
   // just update the query params without reloading the page
-  newParams.set(CODES_QUERY_PARAM_NAME, typed.trim());
+  newParams.set(SEARCH_QUERY_PARAM_NAME, typed.trim());
   const newUrl = `${pathname}?${newParams.toString()}`;
-  void router.replace(newUrl);
+  router.replace(newUrl);
 }
 
 export function createAbortController() {
@@ -43,16 +43,9 @@ export function createAbortController() {
   };
 }
 
-export function getNextPage(page: number, count: number) {
-  return DEFAULT_PAGE_SIZE * (Number(page) + 1) < count ? Number(page) + 1 : -1;
-}
-
-export function isNotAPossibleMatricule(q: string) {
-  // if the first character is a number, and the length is less than 8 or the remaining characters contain a non-number, then it's not a matricule
-  return q.at(0)?.match(/\d/) && (q.length > 8 || Number.isNaN(Number(q)));
-}
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
 export function capitalizeEachWord(str: string) {
   return str.split(' ').map(capitalize).join(' ');
 }
@@ -75,10 +68,10 @@ export const camelCaseToTitleCase = (
   return upperCaseEachWord(str.replace(regex, '$& '));
 };
 
-export function formatNumber(value: string) {
+export function formatNumber(value: string, newSeparator = '-') {
   return Number(value) //
     .toLocaleString('en-US')
-    .replaceAll(',', '-');
+    .replaceAll(',', newSeparator);
 }
 
 export function adjustColor(
@@ -157,4 +150,98 @@ export async function copyToClipboard(text: string): Promise<boolean> {
 
 export function removeExtraSpaces(str: string) {
   return str.replace(/\s+/g, ' ').trim();
+}
+
+export function csvToScholarshipCode(
+  oneRow: ScholarshipCodeRow,
+  period: ScholarshipPeriod,
+) {
+  const [country, matricule, name, , ,] = oneRow;
+  const [, , , numPassport, periodCode, scholarshipCode] = oneRow;
+  const codeRow: ScholarshipCode & { numPassport: string } = {
+    country,
+    matricule,
+    name,
+    periodCode,
+    scholarshipCode,
+    numPassport,
+    period,
+  };
+  return codeRow;
+}
+
+export const csvFormat = [
+  'Nationalité',
+  'Numéro de matricule',
+  'Nom et prénom',
+  'Numéro du passeport',
+  'Code du bourse (partie 1)',
+  'Code du bourse (partie 2)',
+] as const;
+
+export const { log } = console;
+export const ROLE_ID_OF = {
+  USER: 0,
+  ADMIN: 1,
+} as const;
+
+export function formattedDate(date: Date | string) {
+  const dateToFormat = new Date(date);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  };
+  return dateToFormat.toLocaleDateString('fr-FR', options);
+}
+
+const MonthsEnum = {
+  JANUARY: 1,
+  FEBRUARY: 2,
+  MARCH: 3,
+  APRIL: 4,
+  MAY: 5,
+  JUNE: 6,
+  JULY: 7,
+  AUGUST: 8,
+  SEPTEMBER: 9,
+  OCTOBER: 10,
+  NOVEMBER: 11,
+  DECEMBER: 12,
+} as const;
+
+export function getCurrentScholarshipPeriod(): ScholarshipPeriod {
+  const now = new Date();
+  const month = now.getMonth() + 1;
+  switch (month) {
+    case MonthsEnum.SEPTEMBER:
+    case MonthsEnum.OCTOBER:
+      return 'septembre';
+    case MonthsEnum.NOVEMBER:
+    case MonthsEnum.DECEMBER:
+      return 'novembre';
+    case MonthsEnum.JANUARY:
+    case MonthsEnum.FEBRUARY:
+      return 'janvier';
+    case MonthsEnum.MARCH:
+    case MonthsEnum.APRIL:
+      return 'mars';
+    case MonthsEnum.MAY:
+    case MonthsEnum.JUNE:
+      return 'mai';
+    case MonthsEnum.JULY:
+    case MonthsEnum.AUGUST:
+      return 'juin';
+    default:
+      throw new Error(`Unexpected value: ${month}`);
+  }
+}
+
+export function genSequences(startAt = 0) {
+  let i = startAt;
+  return () => {
+    // eslint-disable-next-line no-plusplus
+    return i++;
+  };
 }

@@ -1,10 +1,47 @@
-import path from 'path';
+import { ScholarshipPeriod } from '@/types/app.types';
 
-export const BASE_API_ROUTE = '/api/v1';
-export const DATA_INIT_ROUTE = `${BASE_API_ROUTE}/data-init`;
-export const CSV_FILE_PATH = path.join(
-  process.cwd(),
-  'src/Repository/data/code_amci.csv',
-);
+const BACKEND_BASE_API_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL! || 'http://localhost:8080';
 
-export const GET_CODES_ROUTE = `${BASE_API_ROUTE}/codes`;
+export const BACKEND_API_ROUTE = `${BACKEND_BASE_API_URL}/api/v1`;
+export const WEB_SOCKET_URL = `${BACKEND_BASE_API_URL}/ws`;
+export const STATS_ROUTE = `${BACKEND_API_ROUTE}/stats`;
+export const POST_CODES_ROUTE = `${BACKEND_API_ROUTE}/codes`;
+export const CHECK_CODE_IMPORT_STATUS_ROUTE = `${BACKEND_API_ROUTE}/codes/check-import-status`;
+export const SIGN_IN_ROUTE = `${BACKEND_API_ROUTE}/auth/login`;
+export const SIGN_UP_ROUTE = `${BACKEND_API_ROUTE}/auth/register`;
+export const IMPORT_HISTORY_ROUTE = `${BACKEND_API_ROUTE}/import-history`;
+
+export const getUserRoute = (id: number) => `${BACKEND_API_ROUTE}/users/${id}`;
+
+export const getCodesByMatriculeRoute = (
+  matricule: string,
+  page: number = 0,
+  size: number = 5,
+) => {
+  const params = new URLSearchParams();
+  params.append('size', size.toString());
+  params.append('page', page.toString());
+  return `${BACKEND_API_ROUTE}/codes/matricule/${matricule}?${params.toString()}`;
+};
+
+export const searchCodeByMatriculeOrNameAndPeriodRoute = (
+  query: string,
+  period: ScholarshipPeriod,
+  page: number = 0,
+  size: number = 10,
+) => {
+  const params = new URLSearchParams();
+  params.append('query', query);
+  params.append('period', period.toUpperCase());
+  params.append('page', page.toString());
+  params.append('size', size.toString());
+  return `${BACKEND_API_ROUTE}/codes/search?${params.toString()}`;
+};
+
+export const getUserListRoute = (page: number = 0, size: number = 10) => {
+  const params = new URLSearchParams();
+  params.append('page', page.toString());
+  params.append('size', size.toString());
+  return `${BACKEND_API_ROUTE}/users?${params.toString()}`;
+};

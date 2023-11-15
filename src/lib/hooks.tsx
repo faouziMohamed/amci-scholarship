@@ -4,6 +4,7 @@ import { FieldErrors, useForm } from 'react-hook-form';
 
 import {
   createAbortController,
+  getCurrentScholarshipPeriod,
   removeExtraSpaces,
   updateUrlParams,
 } from '@/lib/utils';
@@ -14,12 +15,11 @@ import {
 } from '@/lib/utils.constant';
 
 import {
-  getCodes,
-  getCodesFromSessionStorage,
-  saveNewCodeToSessionStorage,
+  defaultPaginatedScholarshipCode,
+  searchCodes,
 } from '@/Services/codes.service';
 
-import { FetchedCodes, ViewMode } from '@/types/app.types';
+import { PaginatedScholarshipCode, ViewMode } from '@/types/app.types';
 
 type SearchCodeFields = {
   codeOrName: string;
@@ -34,21 +34,24 @@ export function useSearchFormControl(defaultValues?: string) {
   return { register, errors: formState.errors, watch };
 }
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export function useFetchedCodes(
   errors: FieldErrors<SearchCodeFields>,
   str = '',
 ) {
-  const [result, setResult] = useState<FetchedCodes>();
+  const [result, setResult] = useState<PaginatedScholarshipCode>();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const typed = removeExtraSpaces(str);
+  const currentPeriod = getCurrentScholarshipPeriod();
   useEffect(() => {
     // use abort signal to cancel ongoing fetch when the user types something new
     const abort = createAbortController();
     const { controller, abortSignal, isSignalAborted } = abort;
+    // if no typed value or there is an error in the form, reset the result
     if (!typed || errors.codeOrName) {
-      setResult({ codes: [], totalCount: 0, nextPage: -1 });
+      setResult(defaultPaginatedScholarshipCode);
       if (searchParams.get(CODES_QUERY_PARAM_NAME)?.trim()) {
         updateUrlParams('', router, pathname, searchParams);
       }
@@ -58,30 +61,23 @@ export function useFetchedCodes(
     if (!isSignalAborted()) {
       updateUrlParams(typed, router, pathname, searchParams);
     }
-    const found = getCodesFromSessionStorage(typed);
-    if (found.totalCount > 0) {
-      setResult(found);
-      return abortSignal;
-    }
 
-    const params = new URLSearchParams({
-      [CODES_QUERY_PARAM_NAME]: typed.trim(),
-    });
-    void getCodes(params, controller.signal).then((data) => {
+    void searchCodes(
+      typed.trim(),
+      currentPeriod,
+      controller.signal,
+      0,
+      10,
+    ).then((data) => {
       if (!isSignalAborted()) {
         // Trigger re-render in every case
-        // (even if there is no result to clean the shown result)
         setResult(data);
-        if (data.totalCount > 0) {
-          // update cache only if there is a result
-          saveNewCodeToSessionStorage(data);
-        }
       }
       return null;
     });
 
     return abortSignal;
-  }, [errors.codeOrName, pathname, router, searchParams, typed]);
+  }, [currentPeriod, errors.codeOrName, pathname, router, searchParams, typed]);
   return result;
 }
 
