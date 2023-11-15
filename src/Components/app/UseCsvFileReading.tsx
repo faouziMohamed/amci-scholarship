@@ -69,11 +69,15 @@ function readCsvFile(
     };
     reader.onload = () => {
       setProcessing(true);
-      const csv = (reader.result as string).trim().split('\n');
+      const csv = (reader.result as string)
+        .trim()
+        .replaceAll('\r', '')
+        .split('\n');
       const rowsProcessed: ScholarshipCodeWithPassport[] = [];
       csv.forEach((row) => {
         const oneRow = row.split(',') as ScholarshipCodeRow;
         const codeRow = csvToScholarshipCode(oneRow, period);
+
         rowsProcessed.push(codeRow);
       });
       toast({

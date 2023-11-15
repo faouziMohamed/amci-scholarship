@@ -13,9 +13,11 @@ import { ScholarshipPeriod, scholarshipPeriods } from '@/types/app.types';
 export function SelectScholarshipPeriod({
   period,
   setPeriod,
+  isSubmitting,
 }: {
   period: ScholarshipPeriod | undefined;
   setPeriod: (p: ScholarshipPeriod) => void;
+  isSubmitting: boolean;
 }) {
   return (
     <VStack alignItems='flex-start'>
@@ -35,6 +37,7 @@ export function SelectScholarshipPeriod({
               bgColor: 'primary.500',
               color: 'primary.50',
             }}
+            isDisabled={isSubmitting}
             onClick={() => setPeriod(key as ScholarshipPeriod)}
           >
             {scholarshipPeriods[key as ScholarshipPeriod]}

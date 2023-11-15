@@ -14,15 +14,16 @@ type AddNewCodesProps = {
   period: ScholarshipPeriod;
   setCodes: (codes: ScholarshipCodeWithPassport[]) => void;
   setProcessingPreview: (value: boolean) => void;
+  isSubmitting: boolean;
 };
 
 export function ReadNewScholarshipCodes({
   period,
   setCodes,
   setProcessingPreview,
+  isSubmitting,
 }: AddNewCodesProps) {
   const fileReading = useCsvFileReading(setCodes, period, setProcessingPreview);
-
   const { getRootProps } = fileReading;
   const { getInputProps, isDragActive } = fileReading;
   return (
@@ -49,6 +50,7 @@ export function ReadNewScholarshipCodes({
         rootProps={getRootProps()}
         inputProps={getInputProps()}
         isDragActive={isDragActive}
+        isSubmitting={isSubmitting}
       />
     </Stack>
   );

@@ -6,32 +6,39 @@ export function DragAndDropZone({
   isDragActive,
   inputProps,
   rootProps,
+  isSubmitting,
 }: {
   rootProps: DropzoneState['getRootProps'];
   inputProps: DropzoneInputProps;
   isDragActive: boolean;
+  isSubmitting?: boolean;
 }) {
   return (
     <VStack
       justifyContent='center'
       minH='15rem'
-      border='1px dashed #222'
+      border='1px dashed'
+      borderColor={isSubmitting ? '#ddd' : '#222'}
       rounded='md'
       p='0.5rem'
       w='100%'
-      cursor='pointer'
+      cursor={isSubmitting ? 'not-allowed' : 'pointer'}
       {...rootProps}
       bgColor={isDragActive ? 'gray.100' : 'gray.50'}
-      _hover={{ bgColor: 'gray.100' }}
+      _hover={isSubmitting ? {} : { bgColor: 'gray.100' }}
     >
-      <input {...inputProps} />
+      <input {...inputProps} disabled={isSubmitting} />
       {isDragActive ? (
         <Text fontWeight={500} fontSize='1rem'>
           Déposez le fichier ici...
         </Text>
       ) : (
         <>
-          <Text fontWeight={500} fontSize='1rem'>
+          <Text
+            fontWeight={500}
+            fontSize='1rem'
+            color={isSubmitting ? 'gray.500' : 'initial'}
+          >
             Glissez et déposez le fichier ici, ou cliquez pour sélectionner un
             fichier
           </Text>

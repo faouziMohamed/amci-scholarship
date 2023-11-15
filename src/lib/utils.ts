@@ -226,11 +226,14 @@ const MonthsEnum = {
 
 export function getCurrentScholarshipPeriod(): ScholarshipPeriod {
   const now = new Date();
-  const month = now.getMonth();
+  const month = now.getMonth() + 1;
   switch (month) {
     case MonthsEnum.SEPTEMBER:
     case MonthsEnum.OCTOBER:
       return 'septembre';
+    case MonthsEnum.NOVEMBER:
+    case MonthsEnum.DECEMBER:
+      return 'novembre';
     case MonthsEnum.JANUARY:
     case MonthsEnum.FEBRUARY:
       return 'janvier';
