@@ -85,6 +85,7 @@ export async function checkCodeImportStatus(
       statusCode: response.status,
       message: 'Une erreur non attendu est survenue',
       timestamp: new Date().toDateString(),
+      processedPercentage: -1,
     };
   }
   return (await response.json()) as CodeImportStatus;
