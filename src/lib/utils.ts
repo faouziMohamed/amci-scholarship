@@ -196,19 +196,6 @@ export function formattedDate(date: Date | string) {
   return dateToFormat.toLocaleDateString('fr-FR', options);
 }
 
-//  public static ScholarshipPeriod getCurrentScholarshipPeriod() {
-//     ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
-//     int month = now.getMonthValue();
-//
-//     return switch (month) {
-//       case SEPTEMBER, OCTOBER -> ScholarshipPeriod.SEPTEMBRE;
-//       case JANUARY, FEBRUARY -> ScholarshipPeriod.JANVIER;
-//       case MARCH, APRIL -> ScholarshipPeriod.MARS;
-//       case MAY, JUNE -> ScholarshipPeriod.MAI;
-//       case JULY, AUGUST -> ScholarshipPeriod.JUIN;
-//       default -> throw new IllegalStateException("Unexpected value: " + month);
-//     };
-//   }
 const MonthsEnum = {
   JANUARY: 1,
   FEBRUARY: 2,

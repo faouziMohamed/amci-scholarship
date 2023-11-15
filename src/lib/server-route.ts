@@ -7,6 +7,7 @@ export const BACKEND_API_ROUTE = `${BACKEND_BASE_API_URL}/api/v1`;
 export const WEB_SOCKET_URL = `${BACKEND_BASE_API_URL}/ws`;
 export const STATS_ROUTE = `${BACKEND_API_ROUTE}/stats`;
 export const POST_CODES_ROUTE = `${BACKEND_API_ROUTE}/codes`;
+export const CHECK_CODE_IMPORT_STATUS_ROUTE = `${BACKEND_API_ROUTE}/codes/check-import-status`;
 export const SIGN_IN_ROUTE = `${BACKEND_API_ROUTE}/auth/login`;
 export const SIGN_UP_ROUTE = `${BACKEND_API_ROUTE}/auth/register`;
 export const IMPORT_HISTORY_ROUTE = `${BACKEND_API_ROUTE}/import-history`;

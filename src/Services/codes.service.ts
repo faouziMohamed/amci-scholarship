@@ -1,10 +1,13 @@
 import {
+  CHECK_CODE_IMPORT_STATUS_ROUTE,
   getCodesByMatriculeRoute,
   IMPORT_HISTORY_ROUTE,
   searchCodeByMatriculeOrNameAndPeriodRoute,
 } from '@/lib/server-route';
 
 import {
+  AppUserWithToken,
+  CodeImportStatus,
   ImportHistory,
   PaginatedScholarshipCode,
   ScholarshipPeriod,
@@ -68,4 +71,21 @@ export async function getImportHistory(
     return [];
   }
   return (await response.json()) as ImportHistory[];
+}
+
+export async function checkCodeImportStatus(
+  user: AppUserWithToken,
+): Promise<CodeImportStatus> {
+  const response = await fetch(CHECK_CODE_IMPORT_STATUS_ROUTE, {
+    headers: { Authorization: `Bearer ${user.token}` },
+  });
+  if (!response.ok) {
+    return {
+      status: 'FAILED',
+      statusCode: response.status,
+      message: 'Une erreur non attendu est survenue',
+      timestamp: new Date().toDateString(),
+    };
+  }
+  return (await response.json()) as CodeImportStatus;
 }

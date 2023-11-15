@@ -18,8 +18,11 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Skeleton,
   Stack,
   Text,
+  ToastId,
+  UseToastOptions,
   VStack,
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
@@ -35,8 +38,11 @@ import { PreviewImportedCodes } from '@/Components/app/PreviewImportedCodes';
 import { ReadNewScholarshipCodes } from '@/Components/app/ReadNewScholarshipCodes';
 import { SelectScholarshipPeriod } from '@/Components/app/SelectScholarshipPeriod';
 import { useCopyToClipBoardToast } from '@/Components/componentFactory';
+import { checkCodeImportStatus } from '@/Services/codes.service';
 
 import {
+  AppUserWithToken,
+  CodeImportStatus,
   ScholarshipCodeWithPassport,
   ScholarshipPeriod,
 } from '@/types/app.types';
@@ -45,19 +51,6 @@ function crateWebsocketConnection() {
   const socket = new SockJS(WEB_SOCKET_URL);
   return Stomp.over(socket);
 }
-
-type CodeImportStatus = {
-  timestamp: string;
-  message: string;
-  statusCode: number;
-  status:
-    | 'STARTED'
-    | 'IN_PROGRESS'
-    | 'PROCESSING'
-    | 'SAVING'
-    | 'FINISHED'
-    | 'FAILED';
-};
 
 export function ImportCodeProcess() {
   const [codes, setCodes] = useState<ScholarshipCodeWithPassport[]>([]);
@@ -79,15 +72,18 @@ export function ImportCodeProcess() {
         log({ message });
         const bodyStr = message.body;
         const body = JSON.parse(bodyStr) as CodeImportStatus;
-        if (['STARTED', 'IN_PROGRESS', 'PROCESSING'].includes(body.status)) {
+        if (
+          ['SAVING', 'STARTED', 'IN_PROGRESS', 'PROCESSING'].includes(
+            body.status,
+          )
+        ) {
           setIsSubmitting(true);
           return;
         }
-        if (['SAVING', 'FINISHED', 'FAILED'].includes(body.status)) {
-          setIsSubmitting(false);
-        }
+        setIsSubmitting(false);
       });
     });
+    void handleImportInProgress(user, setIsSubmitting, toast);
 
     // eslint-disable-next-line consistent-return
     return () => {
@@ -95,7 +91,7 @@ export function ImportCodeProcess() {
       // eslint-disable-next-line no-console
       client.disconnect(() => console.log('disconnected'));
     };
-  }, [mounted]);
+  }, [mounted, toast, user, user.token]);
 
   const onSubmit = useCallback(async () => {
     setIsSubmitting(true);
@@ -117,12 +113,23 @@ export function ImportCodeProcess() {
         body: JSON.stringify({ codes, period }),
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         toast({
           title: 'Codes importés',
           status: 'success',
           description:
             'Les codes ont été importés avec succès, ils sont disponibles dans la liste des codes',
+        });
+        setCodes([]);
+        setIsSubmitting(false);
+        return;
+      }
+      if (response.status === 202) {
+        toast({
+          title: 'Importation en cours...',
+          status: 'info',
+          description:
+            "Les codes sont en cours d'importation, vous receverez une notification lorsque l'importation sera terminée",
         });
         setCodes([]);
         return;
@@ -136,10 +143,10 @@ export function ImportCodeProcess() {
         status: 'error',
         description: resJson.message || 'Une erreur est survenue',
       });
+      setIsSubmitting(false);
     } catch (error) {
       const message = (error as Error).message || 'Une erreur est survenue';
       toast({ title: 'Erreur', status: 'error', description: message });
-    } finally {
       setIsSubmitting(false);
     }
   }, [codes, period, toast, user.token]);
@@ -147,11 +154,14 @@ export function ImportCodeProcess() {
   return (
     <>
       {isSubmitting && <NotificationModal opened={isSubmitting} />}
+      <Stack position='absolute' top='0' left={-5} w='100%'>
+        <Skeleton height='3px' w='110%' startColor='primary.main' />
+      </Stack>
       <Accordion w='100%' allowMultiple defaultIndex={[0, 1]}>
         <AccordionItem>
           <Text as='h2'>
             <AccordionButton fontWeight={500}>
-              Selection du periode de la bourse
+              Selection du période de la bourse
               <AccordionIcon />
             </AccordionButton>
           </Text>
@@ -243,4 +253,28 @@ function NotificationModal({ opened = true }: { opened: boolean }) {
       </ModalContent>
     </Modal>
   );
+}
+
+async function handleImportInProgress(
+  user: AppUserWithToken,
+  setIsSubmitting: (value: boolean) => void,
+  toast: (opt?: UseToastOptions) => ToastId,
+) {
+  try {
+    const body = await checkCodeImportStatus(user);
+    if (body.status !== 'IN_PROGRESS') {
+      return;
+    }
+    setIsSubmitting(true);
+    toast({
+      title: 'Importation en cours...',
+      status: 'info',
+      description:
+        "Une importation est en cours, vous receverez une notification lorsque l'importation sera terminée",
+    });
+  } catch (error) {
+    const message = (error as Error).message || 'Une erreur est survenue';
+    toast({ title: 'Erreur', status: 'error', description: message });
+    setIsSubmitting(false);
+  }
 }

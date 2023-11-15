@@ -35,7 +35,12 @@ export default function CodesRootLayout({ children }: { children: ReactNode }) {
                   alignItems='flex-start'
                 >
                   <AppSidebar />
-                  <VStack w='100%' h='100%' overflow='hidden'>
+                  <VStack
+                    w='100%'
+                    h='100%'
+                    overflow='hidden'
+                    position='relative'
+                  >
                     <AppTopBar />
                     <Box w='100%' overflow='hidden'>
                       {children}

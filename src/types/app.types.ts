@@ -140,3 +140,16 @@ export type ImportHistory = {
   status: ImportStatus;
   importedBy: AppUser;
 };
+export type CodeImportStatus = {
+  timestamp: string;
+  message: string;
+  statusCode: number;
+  status:
+    | 'STARTED'
+    | 'IN_PROGRESS'
+    | 'PROCESSING'
+    | 'SAVING'
+    | 'FINISHED'
+    | 'FAILED'
+    | 'NO_IMPORT_IN_PROGRESS';
+};
