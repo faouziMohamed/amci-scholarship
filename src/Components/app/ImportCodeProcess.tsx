@@ -8,16 +8,7 @@ import {
   AccordionPanel,
   Alert,
   AlertIcon,
-  Button,
   Card,
-  Icon,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Skeleton,
   Stack,
   Text,
@@ -27,10 +18,10 @@ import {
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 import { Fragment, useCallback, useEffect, useState } from 'react';
-import { MdQueryBuilder } from 'react-icons/md';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
+import { fPercent } from '@/lib/format-number';
 import { POST_CODES_ROUTE, WEB_SOCKET_URL } from '@/lib/server-route';
 import { log } from '@/lib/utils';
 
@@ -52,6 +43,37 @@ function crateWebsocketConnection() {
   return Stomp.over(socket);
 }
 
+function ImportProgressMessage({
+  importInProgress,
+}: {
+  importInProgress: CodeImportStatus;
+}) {
+  const { processedPercentage } = importInProgress;
+  return (
+    <Alert
+      as={Card}
+      alignItems='flex-start'
+      flexDirection='row'
+      rounded='md'
+      status='error'
+      colorScheme='twitter'
+      bgColor='transparent'
+    >
+      <AlertIcon />
+      <Text>
+        L&apos;importation des codes est
+        {processedPercentage >= 100
+          ? ' terminée!'
+          : ` en cours... ${fPercent(processedPercentage)}`}
+        <Text as='span' display='block'>
+          Vous receverez une notification lorsque l&apos;importation sera
+          terminée!
+        </Text>
+      </Text>
+    </Alert>
+  );
+}
+
 export function ImportCodeProcess() {
   const [codes, setCodes] = useState<ScholarshipCodeWithPassport[]>([]);
   const [period, setPeriod] = useState<ScholarshipPeriod | undefined>();
@@ -61,6 +83,8 @@ export function ImportCodeProcess() {
   const [mounted, setMounted] = useState(false);
   const { data: session } = useSession();
   const { user } = session!;
+  const [importInProgress, setImportInProgress] =
+    useState<CodeImportStatus | null>(null);
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -72,6 +96,7 @@ export function ImportCodeProcess() {
         log({ message });
         const bodyStr = message.body;
         const body = JSON.parse(bodyStr) as CodeImportStatus;
+        setImportInProgress(body);
         if (
           ['SAVING', 'STARTED', 'IN_PROGRESS', 'PROCESSING'].includes(
             body.status,
@@ -83,7 +108,12 @@ export function ImportCodeProcess() {
         setIsSubmitting(false);
       });
     });
-    void handleImportInProgress(user, setIsSubmitting, toast);
+    void handleImportInProgress(
+      user,
+      setImportInProgress,
+      setIsSubmitting,
+      toast,
+    );
 
     // eslint-disable-next-line consistent-return
     return () => {
@@ -153,11 +183,20 @@ export function ImportCodeProcess() {
 
   return (
     <>
-      {isSubmitting && <NotificationModal opened={isSubmitting} />}
-      <Stack position='absolute' top='0' left={-5} w='100%'>
-        <Skeleton height='3px' w='110%' startColor='primary.main' />
-      </Stack>
-      <Accordion w='100%' allowMultiple defaultIndex={[0, 1]}>
+      {isSubmitting && (
+        <Stack position='absolute' top='0' left={-5} w='100%'>
+          <Skeleton height='3px' w='110%' startColor='primary.main' />
+        </Stack>
+      )}
+      {importInProgress && importInProgress.processedPercentage >= 0 && (
+        <ImportProgressMessage importInProgress={importInProgress} />
+      )}
+      <Accordion
+        w='100%'
+        position='relative'
+        allowMultiple
+        defaultIndex={[0, 1]}
+      >
         <AccordionItem>
           <Text as='h2'>
             <AccordionButton fontWeight={500}>
@@ -204,64 +243,15 @@ export function ImportCodeProcess() {
   );
 }
 
-function NotificationModal({ opened = true }: { opened: boolean }) {
-  const [open, setOpen] = useState(opened);
-  const onClose = useCallback(() => {
-    setOpen(false);
-  }, []);
-  return (
-    <Modal isCentered isOpen={open} onClose={onClose}>
-      <ModalOverlay
-        bg='blackAlpha.300'
-        backdropFilter='blur(10px) hue-rotate(10deg)'
-      />
-      <ModalContent>
-        <ModalHeader
-          gap='0.3rem'
-          display='flex'
-          flexDirection='row'
-          alignItems='center'
-        >
-          <Icon as={MdQueryBuilder} fontSize='1.3rem' />
-          <Text as='span'>Code en cours d&apos;importation</Text>
-        </ModalHeader>
-        <ModalCloseButton />
-        <ModalBody as={Stack} gap='1rem'>
-          <Text>
-            Veuillez patienter pendant que nous importons les codes. Vous pouvez
-            fermer cette page et continuer à utiliser l&apos;application.
-          </Text>
-          <Alert
-            as={Card}
-            alignItems='flex-start'
-            flexDirection='row'
-            rounded='md'
-            status='error'
-            colorScheme='twitter'
-            bgColor='transparent'
-          >
-            <AlertIcon />
-            <Text>
-              Vous receverez une notification lorsque l&apos;importation sera
-              terminée!
-            </Text>
-          </Alert>
-        </ModalBody>
-        <ModalFooter>
-          <Button onClick={onClose}>D&apos;accord</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-}
-
 async function handleImportInProgress(
   user: AppUserWithToken,
+  setImportInProgress: (value: CodeImportStatus | null) => void,
   setIsSubmitting: (value: boolean) => void,
   toast: (opt?: UseToastOptions) => ToastId,
 ) {
   try {
     const body = await checkCodeImportStatus(user);
+    setImportInProgress(body);
     if (body.status !== 'IN_PROGRESS') {
       return;
     }

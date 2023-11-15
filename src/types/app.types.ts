@@ -144,6 +144,7 @@ export type CodeImportStatus = {
   timestamp: string;
   message: string;
   statusCode: number;
+  processedPercentage: number;
   status:
     | 'STARTED'
     | 'IN_PROGRESS'

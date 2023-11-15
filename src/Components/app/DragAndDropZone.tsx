@@ -23,11 +23,12 @@ export function DragAndDropZone({
       p='0.5rem'
       w='100%'
       cursor={isSubmitting ? 'not-allowed' : 'pointer'}
-      {...rootProps}
+      {...(isSubmitting ? {} : rootProps)}
       bgColor={isDragActive ? 'gray.100' : 'gray.50'}
       _hover={isSubmitting ? {} : { bgColor: 'gray.100' }}
+      id='drag-and-drop-zone'
     >
-      <input {...inputProps} disabled={isSubmitting} />
+      {!isSubmitting && <input {...inputProps} disabled={isSubmitting} />}
       {isDragActive ? (
         <Text fontWeight={500} fontSize='1rem'>
           Déposez le fichier ici...
