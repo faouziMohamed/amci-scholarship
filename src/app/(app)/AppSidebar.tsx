@@ -19,8 +19,8 @@ import { signOut, useSession } from 'next-auth/react';
 import { HOME_PAGE, SIGN_IN_PAGE } from '@/lib/client-route';
 import { capitalizeEachWord, log, ROLE_ID_OF } from '@/lib/utils';
 
-import { navList } from '@/Components/app/NavList.utils';
-import { SideBarUserInfo } from '@/Components/app/SideBarUserInfo';
+import { navList } from '@/app/(app)/NavList.utils';
+import { SideBarUserInfo } from '@/app/(app)/SideBarUserInfo';
 import { CkAcemLogo } from '@/Components/CkAcemLogo';
 import {
   useSidebarContext,

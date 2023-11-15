@@ -9,9 +9,9 @@ import {
 } from '@/lib/hooks';
 import { fullRegex } from '@/lib/utils';
 
-import DisplayResults from '@/Components/DisplayResults';
-import CodeSearchFormControl from '@/Components/TextField/CodeSearchFormControl';
-import { ViewModeController } from '@/Components/ViewModeController';
+import CodeSearchFormControl from '@/app/(landing_page)/CodeSearchFormControl';
+import DisplayResults from '@/app/(landing_page)/DisplayResults';
+import { ViewModeController } from '@/app/(landing_page)/ViewModeController';
 
 export default function SearchCodes() {
   const valueFromQuery = useSearchParamFromUrlOnMount();

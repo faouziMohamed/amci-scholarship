@@ -3,8 +3,8 @@ import { ReactNode } from 'react';
 
 import '@/styles/globals.scss';
 
-import Footer from '@/Components/Footer';
-import Header from '@/Components/Header';
+import Footer from '@/app/(landing_page)/layout/Footer';
+import Header from '@/app/(landing_page)/layout/Header';
 import { ChakraProviders } from '@/Components/react-contexts/ChakraProviders';
 import NextAuthSessionProvider from '@/Components/react-contexts/NextAuthProvider';
 import { fontsVariables } from '@/styles/fonts';

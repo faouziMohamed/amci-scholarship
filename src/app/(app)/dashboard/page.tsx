@@ -1,6 +1,6 @@
 import { Text, VStack } from '@chakra-ui/react';
 
-import { DashboardStats } from '@/Components/dashboard/DashboardStats';
+import { DashboardStats } from '@/app/(app)/dashboard/DashboardStats';
 
 export default function DashboardPage() {
   return (

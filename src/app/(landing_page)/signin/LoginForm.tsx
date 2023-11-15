@@ -14,7 +14,7 @@ import {
   SIGNUP_PAGE,
 } from '@/lib/client-route';
 
-import AuthLayout from '@/Components/AuthLayout';
+import AuthLayout from '@/app/(landing_page)/layout/AuthLayout';
 import AppFormControl from '@/Components/form/AppFormControl';
 import {
   passwordInputError,

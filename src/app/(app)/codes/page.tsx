@@ -5,8 +5,8 @@ import { getServerSession } from 'next-auth';
 import { CODES_PAGE, getSignInPageWithNext } from '@/lib/client-route';
 import { log } from '@/lib/utils';
 
+import { ImportCodeProcess } from '@/app/(app)/codes/ImportCodeProcess';
 import { authOptions } from '@/app/api/auth/[...nextauth]/nextAuthOptions';
-import { ImportCodeProcess } from '@/Components/app/ImportCodeProcess';
 import { NotAllowedToAccessModalWarning } from '@/Components/modal/NotAllowedToAccessModalWarning';
 
 export default async function CodesPage() {

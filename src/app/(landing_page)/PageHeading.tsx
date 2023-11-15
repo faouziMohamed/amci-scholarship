@@ -2,7 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 
 import { getCurrentScholarshipPeriod } from '@/lib/utils';
 
-import { CKTitleBlob } from '@/Components/CKTitleBlob';
+import { CKTitleBlob } from '@/app/(landing_page)/CKTitleBlob';
 
 import { scholarshipPeriods } from '@/types/app.types';
 

@@ -5,8 +5,8 @@ import { memo } from 'react';
 
 import { useViewMode } from '@/lib/hooks';
 
-import ShowListResult from '@/Components/ShowListResult';
-import ShowTableResult from '@/Components/ShowTableResult';
+import ShowListResult from '@/app/(landing_page)/ShowListResult';
+import ShowTableResult from '@/app/(landing_page)/ShowTableResult';
 
 import { FetchedCodes } from '@/types/app.types';
 

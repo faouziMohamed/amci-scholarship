@@ -4,8 +4,8 @@ import { ReactNode } from 'react';
 
 import { metadata as defaultMetadata } from '@/lib/seo.utils';
 
-import AppSidebar from '@/Components/app/AppSidebar';
-import { AppTopBar } from '@/Components/app/AppTopBar';
+import AppSidebar from '@/app/(app)/AppSidebar';
+import { AppTopBar } from '@/app/(app)/AppTopBar';
 import { ChakraProviders } from '@/Components/react-contexts/ChakraProviders';
 import NextAuthSessionProvider, {
   AppSessionWrapper,

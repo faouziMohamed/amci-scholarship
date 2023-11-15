@@ -8,7 +8,7 @@ import {
   FooterLink,
   FooterTitle,
   SocialLink,
-} from '@/Components/FooterUtils';
+} from '@/app/(landing_page)/layout/FooterUtils';
 import { acemSocials, footerLinks } from '@/Repository/static-data';
 
 export default function Footer() {

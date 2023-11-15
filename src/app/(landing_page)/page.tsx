@@ -1,8 +1,8 @@
 import { Stack } from '@chakra-ui/react';
 
-import PageHeading from '@/Components/PageHeading';
-import SearchCodes from '@/Components/SearchCodes';
-import { UserInstruction } from '@/Components/UserInstruction';
+import PageHeading from '@/app/(landing_page)/PageHeading';
+import SearchCodes from '@/app/(landing_page)/SearchCodes';
+import { UserInstruction } from '@/app/(landing_page)/UserInstruction';
 
 export default function HomePage() {
   return (

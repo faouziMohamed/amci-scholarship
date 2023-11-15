@@ -1,7 +1,7 @@
 import { Divider, List, ListItem } from '@chakra-ui/react';
 
+import DisplayListResult from '@/app/(landing_page)/DisplaySimpleResult';
 import { getListAriaLabel } from '@/Components/componentFactory';
-import DisplayListResult from '@/Components/DisplaySimpleResult';
 
 import { ScholarshipCode } from '@/types/app.types';
 

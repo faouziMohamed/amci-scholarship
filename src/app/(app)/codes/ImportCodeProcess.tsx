@@ -6,9 +6,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Alert,
-  AlertIcon,
-  Card,
   Skeleton,
   Stack,
   Text,
@@ -21,13 +18,13 @@ import { Fragment, useCallback, useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
-import { fPercent } from '@/lib/format-number';
 import { POST_CODES_ROUTE, WEB_SOCKET_URL } from '@/lib/server-route';
 import { log } from '@/lib/utils';
 
-import { PreviewImportedCodes } from '@/Components/app/PreviewImportedCodes';
-import { ReadNewScholarshipCodes } from '@/Components/app/ReadNewScholarshipCodes';
-import { SelectScholarshipPeriod } from '@/Components/app/SelectScholarshipPeriod';
+import { ImportProgressMessage } from '@/app/(app)/codes/ImportProgressMessage';
+import { PreviewImportedCodes } from '@/app/(app)/codes/PreviewImportedCodes';
+import { ReadNewScholarshipCodes } from '@/app/(app)/codes/ReadNewScholarshipCodes';
+import { SelectScholarshipPeriod } from '@/app/(app)/codes/SelectScholarshipPeriod';
 import { useCopyToClipBoardToast } from '@/Components/componentFactory';
 import { checkCodeImportStatus } from '@/Services/codes.service';
 
@@ -41,37 +38,6 @@ import {
 function crateWebsocketConnection() {
   const socket = new SockJS(WEB_SOCKET_URL);
   return Stomp.over(socket);
-}
-
-function ImportProgressMessage({
-  importInProgress,
-}: {
-  importInProgress: CodeImportStatus;
-}) {
-  const { processedPercentage } = importInProgress;
-  return (
-    <Alert
-      as={Card}
-      alignItems='flex-start'
-      flexDirection='row'
-      rounded='md'
-      status='error'
-      colorScheme='twitter'
-      bgColor='transparent'
-    >
-      <AlertIcon />
-      <Text>
-        L&apos;importation des codes est
-        {processedPercentage >= 100
-          ? ' terminée!'
-          : ` en cours... ${fPercent(processedPercentage)}`}
-        <Text as='span' display='block'>
-          Vous receverez une notification lorsque l&apos;importation sera
-          terminée!
-        </Text>
-      </Text>
-    </Alert>
-  );
 }
 
 export function ImportCodeProcess() {

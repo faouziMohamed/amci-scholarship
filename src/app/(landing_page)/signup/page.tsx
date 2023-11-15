@@ -5,8 +5,8 @@ import { getServerSession } from 'next-auth';
 import { PROFILE_PAGE } from '@/lib/client-route';
 import { log } from '@/lib/utils';
 
+import { RegisterForm } from '@/app/(landing_page)/signup/RegisterForm';
 import { authOptions } from '@/app/api/auth/[...nextauth]/nextAuthOptions';
-import { RegisterForm } from '@/Components/auth/RegisterForm';
 
 export const metadata: Metadata = {
   title: 'Activation de compte',

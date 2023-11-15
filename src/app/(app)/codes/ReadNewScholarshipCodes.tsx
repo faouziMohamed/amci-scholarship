@@ -2,8 +2,8 @@ import { Alert, AlertIcon, Code, Stack, Text, VStack } from '@chakra-ui/react';
 
 import { csvFormat } from '@/lib/utils';
 
-import { DragAndDropZone } from '@/Components/app/DragAndDropZone';
-import { useCsvFileReading } from '@/Components/app/UseCsvFileReading';
+import { DragAndDropZone } from '@/app/(app)/codes/DragAndDropZone';
+import { useCsvFileReading } from '@/app/(app)/codes/UseCsvFileReading';
 
 import {
   ScholarshipCodeWithPassport,

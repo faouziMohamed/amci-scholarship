@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { HOME_PAGE, SIGN_IN_PAGE } from '@/lib/client-route';
 import { matriculeRegexp } from '@/lib/utils';
 
-import AuthLayout from '@/Components/AuthLayout';
+import AuthLayout from '@/app/(landing_page)/layout/AuthLayout';
 import AppFormControl from '@/Components/form/AppFormControl';
 import {
   passwordInputError,

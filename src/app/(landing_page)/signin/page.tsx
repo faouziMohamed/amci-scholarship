@@ -7,8 +7,8 @@ import { getServerSession } from 'next-auth';
 import { PROFILE_PAGE } from '@/lib/client-route';
 import { log } from '@/lib/utils';
 
+import { LoginForm } from '@/app/(landing_page)/signin/LoginForm';
 import { authOptions } from '@/app/api/auth/[...nextauth]/nextAuthOptions';
-import { LoginForm } from '@/Components/auth/LoginForm';
 
 export const metadata: Metadata = {
   title: 'Se connecter | Code de bourse',

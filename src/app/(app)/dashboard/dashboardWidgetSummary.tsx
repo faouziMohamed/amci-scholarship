@@ -4,7 +4,7 @@ import { chakra, Icon, SimpleGrid } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import { RiAdminFill } from 'react-icons/ri';
 
-import AppWidgetSummary from '@/Components/dashboard/AppWidgetSummary';
+import AppWidgetSummary from '@/app/(app)/dashboard/AppWidgetSummary';
 
 import glassUsers from '~/images/glass_users.png';
 import id from '~/images/id.png';

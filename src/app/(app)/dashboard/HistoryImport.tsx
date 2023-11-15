@@ -19,8 +19,8 @@ import { useEffect, useState } from 'react';
 import { fShortenNumber } from '@/lib/format-number';
 import { formattedDate } from '@/lib/utils';
 
+import { OverViewImportHistory } from '@/app/(app)/dashboard/OverViewImportHistory';
 import { useCopyToClipBoardToast } from '@/Components/componentFactory';
-import { OverViewImportHistory } from '@/Components/dashboard/OverViewImportHistory';
 import { evenRowsBg, oddRowsBg } from '@/Components/TableStyles';
 import { getImportHistory } from '@/Services/codes.service';
 

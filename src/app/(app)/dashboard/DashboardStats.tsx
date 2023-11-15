@@ -13,10 +13,10 @@ import NextImage from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
+import { CodeAndMatriculeBarChart } from '@/app/(app)/dashboard/CodeAndMatriculeBarChart';
+import { DashboardWidgetSummary } from '@/app/(app)/dashboard/dashboardWidgetSummary';
+import { HistoryImport } from '@/app/(app)/dashboard/HistoryImport';
 import { useCopyToClipBoardToast } from '@/Components/componentFactory';
-import { CodeAndMatriculeBarChart } from '@/Components/dashboard/CodeAndMatriculeBarChart';
-import { DashboardWidgetSummary } from '@/Components/dashboard/dashboardWidgetSummary';
-import { HistoryImport } from '@/Components/dashboard/HistoryImport';
 import { getStats } from '@/Services/stats.service';
 
 import personStanding from '~/images/person-standing.png';
