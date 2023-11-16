@@ -23,7 +23,7 @@ module.exports = {
     'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    // 'plugin:unicorn/recommended',
+    'plugin:unicorn/recommended',
     'plugin:promise/recommended',
     'plugin:prettier/recommended',
     'prettier',
@@ -41,6 +41,13 @@ module.exports = {
     'no-mixed-operators': 'error',
     'no-plusplus': ['warn', { allowForLoopAfterthoughts: true }],
     'no-param-reassign': ['error', { props: false }],
+    'unicorn/prefer-switch': 'off',
+    'unicorn/filename-case': 'off',
+    'unicorn/prevent-abbreviations': 'off',
+    'unicorn/no-useless-undefined': 'off',
+    'unicorn/no-array-callback-reference': 'off',
+    'unicorn/no-unreadable-array-destructuring': 'off',
+    'unicorn/no-null': 'off',
     'no-restricted-syntax': [
       'error',
       {

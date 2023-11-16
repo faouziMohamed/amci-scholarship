@@ -24,7 +24,7 @@ export const passwordInputError = {
   ],
 };
 export const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[\w\W\s]{6,}$/;
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!$%&*?@])[\W\w]{6,}$/;
 
 export default function PasswordInput(props: {
   placeholder: string;

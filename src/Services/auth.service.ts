@@ -14,10 +14,10 @@ export async function handleLoginRequest(credentials: AuthSignIn) {
 export async function handleUserRegistration(credReg: RegistrationBody) {
   const { email, password, matricule, passportNumber } = credReg;
   const errors: string[] = [];
-  if (!credReg.matricule) errors.push('Matricule');
-  if (!credReg.email) errors.push('Adresse email');
-  if (!credReg.password) errors.push('Mot de passe');
-  if (!credReg.passportNumber) errors.push('Numéro de passeport');
+  if (!matricule) errors.push('Matricule');
+  if (!email) errors.push('Adresse email');
+  if (!password) errors.push('Mot de passe');
+  if (!passportNumber) errors.push('Numéro de passeport');
 
   if (errors.length > 0)
     throw new Error(
