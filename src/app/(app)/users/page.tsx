@@ -40,8 +40,8 @@ export default function UserPage() {
         setUsers(fetchedUsers);
         return fetchedUsers;
       })
-      .catch((err) => {
-        const msg = (err as Error).message;
+      .catch((error) => {
+        const msg = (error as Error).message;
         toast({
           title: 'Erreur de chargement de la liste des utilisateurs',
           description: msg,

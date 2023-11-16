@@ -101,7 +101,7 @@ export function LoginForm({ redirectTo }: FormLoginProps) {
           autoComplete='email'
           register={register('email', {
             required: true,
-            pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            pattern: /^[\w.-]+@[\d.A-Za-z-]+\.[A-Za-z]{2,4}$/,
           })}
           displayError={{ heading: 'Adresse email invalide' }}
         />

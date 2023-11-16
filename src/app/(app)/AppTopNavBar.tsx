@@ -4,21 +4,21 @@ import { Avatar, HStack, Icon, IconButton } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 import { BiMenu, BiSolidUserCircle } from 'react-icons/bi';
 import { FiSettings } from 'react-icons/fi';
-import { MdNotifications } from 'react-icons/md';
 
+import { NotificationBell } from '@/app/(app)/topNavbar/NotificationBell';
 import {
   useSidebarContext,
   useSidebarMediaQueryIsSmallScreen,
 } from '@/Components/react-contexts/SidebarContextProvider';
 
-export function AppTopBar() {
+export function AppTopNavBar() {
   const { toggle } = useSidebarContext();
   const { data: session } = useSession();
   const isSmallScreen = useSidebarMediaQueryIsSmallScreen();
   const { user } = session!;
   return (
     <HStack
-      justifyContent={!isSmallScreen ? 'flex-end' : 'space-between'}
+      justifyContent={isSmallScreen ? 'space-between' : 'flex-end'}
       w='100%'
       py='0.5rem'
       px='1rem'
@@ -35,13 +35,7 @@ export function AppTopBar() {
       )}
 
       <HStack spacing={5}>
-        <Icon
-          bgColor='primary.100'
-          fontSize='2rem'
-          p='0.2rem'
-          rounded='md'
-          as={MdNotifications}
-        />
+        <NotificationBell />
         <HStack
           px='0.4rem'
           py='0.2rem'

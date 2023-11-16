@@ -25,12 +25,18 @@ export function useCsvFileReading(
           title: 'Fichier non chargé',
           description:
             "Le fichier n'a pas été chargé car il ne s'agit pas d'un fichier CSV",
-          duration: 10000,
+          duration: 10_000,
           status: 'error',
         });
         return;
       }
-      readCsvFile(acceptedFiles, toast, setProcessingPreview, period, setCodes);
+      void readCsvFile(
+        acceptedFiles,
+        toast,
+        setProcessingPreview,
+        period,
+        setCodes,
+      );
     },
     [period, setCodes, setProcessingPreview, toast],
   );
@@ -43,51 +49,39 @@ export function useCsvFileReading(
   return { toast, getRootProps, getInputProps, isDragActive };
 }
 
-function readCsvFile(
+async function readCsvFile(
   acceptedFiles: File[],
   toast: (opt?: UseToastOptions) => string | number | undefined,
   setProcessing: (value: boolean) => void,
   period: ScholarshipPeriod,
   setCodes: (codes: ScholarshipCodeWithPassport[]) => void,
 ) {
-  acceptedFiles.forEach((file) => {
-    const reader = new FileReader();
-
-    reader.onabort = () => {
+  for (const file of acceptedFiles) {
+    try {
+      // The 'await' in the loop is intentional here since we want to read the files one by one and not all at once
+      // eslint-disable-next-line no-await-in-loop
+      const text = await file.text();
+      setProcessing(true);
+      const csv = text.trim().replaceAll('\r', '').split('\n');
+      const rowsProcessed: ScholarshipCodeWithPassport[] = [];
+      for (const row of csv) {
+        const oneRow = row.split(',') as ScholarshipCodeRow;
+        const codeRow = csvToScholarshipCode(oneRow, period);
+        rowsProcessed.push(codeRow);
+      }
       toast({
-        title: 'Chargement du fichier annulé',
-        status: 'error',
-        description: 'Le chargement du fichier a été annulé',
+        title: 'Fichier chargé',
+        description: 'Le fichier a été chargé avec succès',
+        duration: 10_000,
       });
-    };
-    reader.onerror = () => {
+      setProcessing(false);
+      setCodes(rowsProcessed);
+    } catch {
       toast({
         title: 'Fichier non chargé',
         status: 'error',
         description: 'Une erreur est survenue lors du chargement du fichier',
       });
-    };
-    reader.onload = () => {
-      setProcessing(true);
-      const csv = (reader.result as string)
-        .trim()
-        .replaceAll('\r', '')
-        .split('\n');
-      const rowsProcessed: ScholarshipCodeWithPassport[] = [];
-      csv.forEach((row) => {
-        const oneRow = row.split(',') as ScholarshipCodeRow;
-        const codeRow = csvToScholarshipCode(oneRow, period);
-
-        rowsProcessed.push(codeRow);
-      });
-      toast({
-        title: 'Fichier chargé',
-        description: 'Le fichier a été chargé avec succès',
-        duration: 10000,
-      });
-      setProcessing(false);
-      setCodes(rowsProcessed);
-    };
-    reader.readAsText(file);
-  });
+    }
+  }
 }

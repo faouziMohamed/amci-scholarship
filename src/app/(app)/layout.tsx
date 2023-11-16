@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 import { metadata as defaultMetadata } from '@/lib/seo.utils';
 
 import AppSidebar from '@/app/(app)/AppSidebar';
-import { AppTopBar } from '@/app/(app)/AppTopBar';
+import { AppTopNavBar } from '@/app/(app)/AppTopNavBar';
 import { ChakraProviders } from '@/Components/react-contexts/ChakraProviders';
 import NextAuthSessionProvider, {
   AppSessionWrapper,
@@ -42,7 +42,7 @@ export default function CodesRootLayout({ children }: { children: ReactNode }) {
                     overflow='hidden'
                     position='relative'
                   >
-                    <AppTopBar />
+                    <AppTopNavBar />
                     <Box w='100%' overflow='hidden'>
                       {children}
                     </Box>

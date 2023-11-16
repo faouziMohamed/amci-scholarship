@@ -43,7 +43,7 @@ export async function searchCodes(
     }
 
     return (await response.json()) as PaginatedScholarshipCode;
-  } catch (error) {
+  } catch {
     return defaultPaginatedScholarshipCode;
   }
 }

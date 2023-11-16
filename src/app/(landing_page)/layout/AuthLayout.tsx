@@ -77,7 +77,7 @@ export default function AuthLayout(props: AuthLayoutParams) {
           onSubmit={onSubmit}
           w='100%'
         >
-          {!!errors.length && (
+          {errors.length > 0 && (
             <List spacing={3} color='danger.main'>
               {errors.map((error) => (
                 <ListItem key={error}>

@@ -154,3 +154,13 @@ export type CodeImportStatus = {
     | 'FAILED'
     | 'NO_IMPORT_IN_PROGRESS';
 };
+export type AppNotification = {
+  clickable: boolean;
+  description: string;
+  id: number;
+  title: string;
+  severity: 'success' | 'error' | 'warning' | 'info';
+  seen: boolean;
+  timestamp: string;
+  type: 'CODE_IMPORT' | 'INFO';
+};

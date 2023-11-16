@@ -21,12 +21,12 @@ const NextLink = forwardRef<HTMLAnchorElement, UnStyledLinkProps>(
     ref,
   ) => {
     const isNewTab =
-      openNewTab !== undefined
-        ? openNewTab
-        : href &&
+      openNewTab === undefined
+        ? href &&
           !href.startsWith('/') &&
           !href.startsWith('#') &&
-          !href.includes(SITE_URL);
+          !href.includes(SITE_URL)
+        : openNewTab;
 
     if (!isNewTab) {
       return (

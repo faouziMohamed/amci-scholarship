@@ -9,26 +9,26 @@ import {
 export const SEARCH_QUERY_PARAM_NAME = 'q';
 export const matriculeRegexp = /^\d{8}$/;
 export const fullRegex =
-  /^(\d{8}|^[a-zA-ZÀ-ÖØ-öø-ÿ\s][a-zA-ZÀ-ÖØ-öø-ÿ\s\d-_]*)$/;
+  /^(\d{8}|^[\sA-Za-zÀ-ÖØ-öø-ÿ][\sA-Za-zÀ-ÖØ-öø-ÿ\d-_]*)$/;
 
 export function updateUrlParams(
-  str: string,
+  string_: string,
   router: ReturnType<typeof useRouter>,
   pathname: string,
-  searchParams: ReadonlyURLSearchParams,
+  searchParameters: ReadonlyURLSearchParams,
 ) {
-  const typed = str.trim();
+  const typed = string_.trim();
   if (!typed.trim()) {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete(SEARCH_QUERY_PARAM_NAME);
-    const newUrl = `${pathname}?${newParams.toString()}`;
+    const newParameters = new URLSearchParams(searchParameters);
+    newParameters.delete(SEARCH_QUERY_PARAM_NAME);
+    const newUrl = `${pathname}?${newParameters.toString()}`;
     router.replace(newUrl);
     return;
   }
-  const newParams = new URLSearchParams(searchParams);
+  const newParameters = new URLSearchParams(searchParameters);
   // just update the query params without reloading the page
-  newParams.set(SEARCH_QUERY_PARAM_NAME, typed.trim());
-  const newUrl = `${pathname}?${newParams.toString()}`;
+  newParameters.set(SEARCH_QUERY_PARAM_NAME, typed.trim());
+  const newUrl = `${pathname}?${newParameters.toString()}`;
   router.replace(newUrl);
 }
 
@@ -43,29 +43,30 @@ export function createAbortController() {
   };
 }
 
-export const capitalize = (str: string) =>
-  str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+export const capitalize = (string_: string) =>
+  string_.charAt(0).toUpperCase() + string_.slice(1).toLowerCase();
 
-export function capitalizeEachWord(str: string) {
-  return str.split(' ').map(capitalize).join(' ');
+export function capitalizeEachWord(string_: string) {
+  // eslint-disable-next-line unicorn/no-array-callback-reference
+  return string_.split(' ').map(capitalize).join(' ');
 }
 
-export function upperCaseEachWord(str: string) {
-  return str
+export function upperCaseEachWord(string_: string) {
+  return string_
     .split(' ')
     .map((s) => s.toUpperCase())
     .join(' ');
 }
 
 export const camelCaseToTitleCase = (
-  str: string,
+  string_: string,
   mode: 'uppercase' | 'titleCase',
 ) => {
   const regex = /([A-Z])(?=[A-Z][a-z])|([a-z])(?=[A-Z])/g;
   if (mode === 'titleCase') {
-    return capitalizeEachWord(str.replace(regex, '$& '));
+    return capitalizeEachWord(string_.replaceAll(regex, '$& '));
   }
-  return upperCaseEachWord(str.replace(regex, '$& '));
+  return upperCaseEachWord(string_.replaceAll(regex, '$& '));
 };
 
 export function formatNumber(value: string, newSeparator = '-') {
@@ -87,7 +88,7 @@ export function adjustColor(
       'The percent parameter is required if opacityPercent is not provided.',
     );
   }
-  const regex = /^#[0-9A-Fa-f]{6}$/;
+  const regex = /^#[\dA-Fa-f]{6}$/;
   if (!regex.test(hex)) {
     throw new Error('Invalid hexadecimal color string.');
   }
@@ -95,12 +96,12 @@ export function adjustColor(
   const hasHash = hex[0] === '#';
   let hexWithoutHash = hex;
   if (hasHash) {
-    hexWithoutHash = hex.substring(1);
+    hexWithoutHash = hex.slice(1);
   }
 
-  const red = parseInt(hexWithoutHash.substring(0, 2), 16);
-  const green = parseInt(hexWithoutHash.substring(2, 4), 16);
-  const blue = parseInt(hexWithoutHash.substring(4, 6), 16);
+  const red = Number.parseInt(hexWithoutHash.slice(0, 2), 16);
+  const green = Number.parseInt(hexWithoutHash.slice(2, 4), 16);
+  const blue = Number.parseInt(hexWithoutHash.slice(4, 6), 16);
 
   const newRed = adjustComponent(red, percent);
   const newGreen = adjustComponent(green, percent);
@@ -143,13 +144,13 @@ export async function copyToClipboard(text: string): Promise<boolean> {
     return true;
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Error copying to clipboard: ', error);
+    console.error('Error copying to clipboard:', error);
     return false;
   }
 }
 
-export function removeExtraSpaces(str: string) {
-  return str.replace(/\s+/g, ' ').trim();
+export function removeExtraSpaces(string_: string) {
+  return string_.replaceAll(/\s+/g, ' ').trim();
 }
 
 export function csvToScholarshipCode(
@@ -157,14 +158,14 @@ export function csvToScholarshipCode(
   period: ScholarshipPeriod,
 ) {
   const [country, matricule, name, , ,] = oneRow;
-  const [, , , numPassport, periodCode, scholarshipCode] = oneRow;
+  const [, , , numberPassport, periodCode, scholarshipCode] = oneRow;
   const codeRow: ScholarshipCode & { numPassport: string } = {
     country,
     matricule,
     name,
     periodCode,
     scholarshipCode,
-    numPassport,
+    numPassport: numberPassport,
     period,
   };
   return codeRow;
@@ -216,32 +217,39 @@ export function getCurrentScholarshipPeriod(): ScholarshipPeriod {
   const month = now.getMonth() + 1;
   switch (month) {
     case MonthsEnum.SEPTEMBER:
-    case MonthsEnum.OCTOBER:
+    case MonthsEnum.OCTOBER: {
       return 'septembre';
+    }
     case MonthsEnum.NOVEMBER:
-    case MonthsEnum.DECEMBER:
+    case MonthsEnum.DECEMBER: {
       return 'novembre';
+    }
     case MonthsEnum.JANUARY:
-    case MonthsEnum.FEBRUARY:
+    case MonthsEnum.FEBRUARY: {
       return 'janvier';
+    }
     case MonthsEnum.MARCH:
-    case MonthsEnum.APRIL:
+    case MonthsEnum.APRIL: {
       return 'mars';
+    }
     case MonthsEnum.MAY:
-    case MonthsEnum.JUNE:
+    case MonthsEnum.JUNE: {
       return 'mai';
+    }
     case MonthsEnum.JULY:
-    case MonthsEnum.AUGUST:
+    case MonthsEnum.AUGUST: {
       return 'juin';
-    default:
+    }
+    default: {
       throw new Error(`Unexpected value: ${month}`);
+    }
   }
 }
 
 export function genSequences(startAt = 0) {
-  let i = startAt;
+  let index = startAt;
   return () => {
     // eslint-disable-next-line no-plusplus
-    return i++;
+    return index++;
   };
 }

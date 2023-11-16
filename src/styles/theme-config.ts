@@ -48,4 +48,21 @@ export const appCcolors = {
     100: '#ffc4e0',
     50: '#ffeef0',
   },
+  warning: {
+    main: '#ff9800',
+    light: '#ffc947',
+    dark: '#c66900',
+    500: '#ff9800',
+    400: '#ffc947',
+    300: '#ffdd77',
+    200: '#fff4a8',
+    100: '#fffbe0',
+    50: '#fffdf0',
+  },
+  text: {
+    primary: '#000000',
+    secondary: '#ffffff',
+    disabled: '#9e9e9e',
+    hint: '#9e9e9e',
+  },
 };
