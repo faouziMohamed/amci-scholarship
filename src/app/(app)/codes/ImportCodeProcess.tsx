@@ -15,11 +15,9 @@ import {
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 import { Fragment, useCallback, useEffect, useState } from 'react';
-import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
 
-import { POST_CODES_ROUTE, WEB_SOCKET_URL } from '@/lib/server-route';
-import { log } from '@/lib/utils';
+import { POST_CODES_ROUTE } from '@/lib/server-route';
+import { crateWebsocketConnection } from '@/lib/utils';
 
 import { ImportProgressMessage } from '@/app/(app)/codes/ImportProgressMessage';
 import { PreviewImportedCodes } from '@/app/(app)/codes/PreviewImportedCodes';
@@ -34,11 +32,6 @@ import {
   ScholarshipCodeWithPassport,
   ScholarshipPeriod,
 } from '@/types/app.types';
-
-function crateWebsocketConnection() {
-  const socket = new SockJS(WEB_SOCKET_URL);
-  return Stomp.over(socket);
-}
 
 export function ImportCodeProcess() {
   const [codes, setCodes] = useState<ScholarshipCodeWithPassport[]>([]);
@@ -59,7 +52,6 @@ export function ImportCodeProcess() {
     const client = crateWebsocketConnection();
     client.connect({}, () => {
       client.subscribe('/topic/codes', (message) => {
-        log({ message });
         const bodyStr = message.body;
         const body = JSON.parse(bodyStr) as CodeImportStatus;
         setImportInProgress(body);

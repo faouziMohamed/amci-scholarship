@@ -39,3 +39,5 @@ export const FORM_AUTOCOMPLETE = [
   'cc-exp-year',
   'cc-csc',
 ] as const;
+export const IMPORT_CODE_TAB = 'import';
+export const IMPORT_HISTORY_TAB = 'import-history';

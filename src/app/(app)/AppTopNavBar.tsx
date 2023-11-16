@@ -22,6 +22,7 @@ export function AppTopNavBar() {
       w='100%'
       py='0.5rem'
       px='1rem'
+      bgColor='rgb(0 0 0 / 1%)'
     >
       {isSmallScreen && (
         <IconButton
@@ -35,7 +36,9 @@ export function AppTopNavBar() {
       )}
 
       <HStack spacing={5}>
+        {/* <Suspense fallback={null}> */}
         <NotificationBell />
+        {/* </Suspense> */}
         <HStack
           px='0.4rem'
           py='0.2rem'

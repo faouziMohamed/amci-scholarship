@@ -13,14 +13,12 @@ import { getServerSession } from 'next-auth';
 
 import { CODES_PAGE, getSignInPageWithNext } from '@/lib/client-route';
 import { log } from '@/lib/utils';
+import { IMPORT_CODE_TAB, IMPORT_HISTORY_TAB } from '@/lib/utils.constant';
 
 import { ImportCodeProcess } from '@/app/(app)/codes/ImportCodeProcess';
 import { ImportHistoryTab } from '@/app/(app)/codes/ImportHistoryTab';
 import { authOptions } from '@/app/api/auth/[...nextauth]/nextAuthOptions';
 import { NotAllowedToAccessModalWarning } from '@/Components/modal/NotAllowedToAccessModalWarning';
-
-const IMPORT_CODE_TAB = 'import';
-const IMPORT_HISTORY_TAB = 'import-history';
 
 const tabIndexes = {
   [IMPORT_CODE_TAB]: 0,
@@ -55,6 +53,7 @@ export default async function CodesPage({ searchParams }: CodePageParams) {
         mx='auto'
         alignItems='flex-start'
         px='1rem'
+        py='1rem'
         spacing={10}
       >
         <Tabs

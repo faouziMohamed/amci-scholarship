@@ -155,12 +155,21 @@ export type CodeImportStatus = {
     | 'NO_IMPORT_IN_PROGRESS';
 };
 export type AppNotification = {
-  clickable: boolean;
   description: string;
   id: number;
   title: string;
-  severity: 'success' | 'error' | 'warning' | 'info';
-  seen: boolean;
+  severity: 'SUCCESS' | 'ERROR' | 'WARNING' | 'INFO';
+  isRead: boolean;
   timestamp: string;
-  type: 'CODE_IMPORT' | 'INFO';
+  action: 'CODE_IMPORT' | 'INFO';
+};
+
+export type PaginatedNotifications = {
+  timestamp?: string;
+  notifications: AppNotification[];
+  totalNotifications: number;
+  totalPages: number;
+  nextPage: number;
+  pageSize: number;
+  currentCount: number;
 };

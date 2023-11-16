@@ -1,6 +1,12 @@
 import { ReadonlyURLSearchParams, useRouter } from 'next/navigation';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+
+import { WEB_SOCKET_URL } from '@/lib/server-route';
 
 import {
+  AppNotification,
+  PaginatedNotifications,
   ScholarshipCode,
   ScholarshipCodeRow,
   ScholarshipPeriod,
@@ -252,4 +258,23 @@ export function genSequences(startAt = 0) {
     // eslint-disable-next-line no-plusplus
     return index++;
   };
+}
+
+export function getSeverityColor(severity: AppNotification['severity']) {
+  if (severity === 'SUCCESS') {
+    return 'primary.light';
+  }
+  if (severity === 'ERROR' || severity === 'WARNING') {
+    return 'warning.main';
+  }
+  return 'blue.500';
+}
+
+export function crateWebsocketConnection() {
+  const socket = new SockJS(WEB_SOCKET_URL);
+  return Stomp.over(socket);
+}
+
+export function atLeastOneNotifIsNotRead(body: PaginatedNotifications) {
+  return body.notifications.some((notif) => !notif.isRead);
 }
