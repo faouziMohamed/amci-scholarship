@@ -6,8 +6,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Skeleton,
-  Stack,
   Text,
   ToastId,
   UseToastOptions,
@@ -141,11 +139,6 @@ export function ImportCodeProcess() {
 
   return (
     <>
-      {isSubmitting && (
-        <Stack position='absolute' top='0' left={-5} w='100%'>
-          <Skeleton height='3px' w='110%' startColor='primary.main' />
-        </Stack>
-      )}
       {importInProgress && importInProgress.processedPercentage >= 0 && (
         <ImportProgressMessage importInProgress={importInProgress} />
       )}

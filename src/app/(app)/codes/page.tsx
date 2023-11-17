@@ -64,10 +64,10 @@ export default async function CodesPage({ searchParams }: CodePageParams) {
           w='100%'
         >
           <TabList pb='2rem'>
-            <Tab as={Link} href={`${CODES_PAGE}?tab=import`}>
+            <Tab as={Link} href={`${CODES_PAGE}?tab=${IMPORT_CODE_TAB}`}>
               Importer des codes de la bourse
             </Tab>
-            <Tab as={Link} href={`${CODES_PAGE}?tab=import-history`}>
+            <Tab as={Link} href={`${CODES_PAGE}?tab=${IMPORT_HISTORY_TAB}`}>
               Historique des imports
             </Tab>
           </TabList>

@@ -12,6 +12,7 @@ export function ImportProgressMessage({
   const { processedPercentage } = importInProgress;
   return (
     <Alert
+      w='100%'
       as={Card}
       alignItems='flex-start'
       flexDirection='row'

@@ -11,81 +11,41 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
 import { MdNotifications } from 'react-icons/md';
 
-import { WS_ALL_NOTIFICATION, WS_ONE_NOTIFICATION } from '@/lib/server-route';
-import {
-  atLeastOneNotifIsNotRead,
-  crateWebsocketConnection,
-} from '@/lib/utils';
+import { SOME_READ_NOTIFICATION_ROUTE } from '@/lib/server-route';
 
 import { NotificationDot } from '@/app/(app)/topNavbar/NotificationDot';
 import { NotificationLine } from '@/app/(app)/topNavbar/NotificationLine';
-import {
-  DEFAULT_PAGINATED_NOTIFICATION,
-  getAllUserNotifications,
-} from '@/Services/notifications.service';
-
-import { AppNotification, PaginatedNotifications } from '@/types/app.types';
+import { useNotificationsSocket } from '@/app/(app)/topNavbar/UseNotificationsSocket';
 
 export function NotificationBell() {
-  const [mounted, setMounted] = useState(false);
   const { data: session } = useSession();
-  const [isDirty, setIsDirty] = useState(false);
   const { user } = session!;
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const [paginatedNotif, setPaginatedNotif] = useState<PaginatedNotifications>(
-    DEFAULT_PAGINATED_NOTIFICATION,
-  );
-  useEffect(() => {
-    if (!mounted) return;
-    const client = crateWebsocketConnection();
-    client.connect({}, () => {
-      client.subscribe(WS_ALL_NOTIFICATION, (message) => {
-        const bodyStr = message.body;
-        const body = JSON.parse(bodyStr) as PaginatedNotifications;
-        setPaginatedNotif(body);
-
-        const dirty = atLeastOneNotifIsNotRead(body);
-        setIsDirty(dirty);
-      });
-
-      client.subscribe(WS_ONE_NOTIFICATION, (message) => {
-        const bodyStr = message.body;
-        const body = JSON.parse(bodyStr) as AppNotification;
-        const newNotif: PaginatedNotifications = {
-          ...paginatedNotif,
-          notifications: [body, ...paginatedNotif.notifications],
-          totalNotifications: paginatedNotif.totalNotifications + 1,
-          currentCount: paginatedNotif.currentCount + 1,
-        };
-        setPaginatedNotif(newNotif);
-        setIsDirty(!body.isRead);
-      });
-    });
-
-    void (async () => {
-      const notif = await getAllUserNotifications(user);
-      setPaginatedNotif(notif);
-    })();
-
-    // eslint-disable-next-line consistent-return
-    return () => {
-      if (!client?.connected || !mounted) return;
-      // eslint-disable-next-line no-console
-      client.disconnect(() => console.log('disconnected'));
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mounted, user, user.token]);
+  const { paginatedNotif, setIsDirty, isDirty } = useNotificationsSocket(user);
 
   return (
     <Menu>
       <Box id='notification-menu-icon' position='relative'>
         <MenuButton
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={async () => {
+            setIsDirty(false);
+            const notifIds = paginatedNotif.notifications
+              .filter((n) => !n.isRead)
+              .map((n) => n.id);
+            if (notifIds.length > 0) {
+              const body = { notificationIds: notifIds, read: true };
+              await fetch(SOME_READ_NOTIFICATION_ROUTE, {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${user.token}`,
+                },
+                body: JSON.stringify(body),
+              });
+            }
+          }}
           as={IconButton}
           aria-label='Options'
           variant='ghost'

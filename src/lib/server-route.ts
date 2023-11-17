@@ -12,13 +12,11 @@ export const SIGN_IN_ROUTE = `${BACKEND_API_ROUTE}/auth/login`;
 export const SIGN_UP_ROUTE = `${BACKEND_API_ROUTE}/auth/register`;
 export const IMPORT_HISTORY_ROUTE = `${BACKEND_API_ROUTE}/import-history`;
 export const getUserRoute = (id: number) => `${BACKEND_API_ROUTE}/users/${id}`;
+export const SOME_READ_NOTIFICATION_ROUTE = `${BACKEND_API_ROUTE}/notifications/some/read`;
 
 export const WS_ONE_NOTIFICATION = '/topic/notifications.one';
 export const WS_ALL_NOTIFICATION = '/topic/notifications.all';
-// TODO: handle opened notification and make them read
-// export const WS_ONE_IS_READ_NOTIFICATION = '/topic/notifications.one.isRead';
-// export const WS_ALL_IS_READ_NOTIFICATION = '/topic/notifications.all.isRead';
-// export const WS_SOME_IS_READ_NOTIFICATION = '/topic/notifications.some.isRead';
+export const WS_ARE_READ_NOTIFICATION = '/topic/notifications.some.isRead';
 
 export const getCodesByMatriculeRoute = (
   matricule: string,
