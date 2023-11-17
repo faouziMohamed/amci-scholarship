@@ -1,7 +1,10 @@
 import { Box, Icon, MenuItem, Stack, Text } from '@chakra-ui/react';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import Link from 'next/link';
 import { BiSolidError } from 'react-icons/bi';
 import { IoInformationCircleSharp } from 'react-icons/io5';
+import 'dayjs/locale/fr';
 
 import { CODES_PAGE } from '@/lib/client-route';
 import { getSeverityColor } from '@/lib/utils';
@@ -13,6 +16,9 @@ type Props = {
   notification: AppNotification;
 };
 
+dayjs.locale('fr');
+dayjs.extend(relativeTime);
+
 export function NotificationLine({ notification }: Props) {
   const {
     description,
@@ -21,6 +27,7 @@ export function NotificationLine({ notification }: Props) {
     severity,
 
     action,
+    timestamp,
   } = notification;
   const iconColor = getSeverityColor(severity);
   const clickable = action === 'CODE_IMPORT';
@@ -64,10 +71,14 @@ export function NotificationLine({ notification }: Props) {
           {description}
         </Text>
         <Text fontSize='0.7rem' color='blackAlpha.600' fontWeight='400'>
-          {/*  display elapsed time in good way */}
-          Il y a 2 jours
+          {/*  display elapsed time */}
+          {formatDate(timestamp)}
         </Text>
       </Stack>
     </MenuItem>
   );
+}
+
+export function formatDate(date: Date | string) {
+  return dayjs().to(dayjs(date));
 }
