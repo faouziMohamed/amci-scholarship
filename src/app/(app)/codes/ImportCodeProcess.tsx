@@ -31,7 +31,7 @@ import {
   ScholarshipPeriod,
 } from '@/types/app.types';
 
-export function ImportCodeProcess() {
+export function ImportCodeProcess({ tabIndex }: { tabIndex: number }) {
   const [codes, setCodes] = useState<ScholarshipCodeWithPassport[]>([]);
   const [period, setPeriod] = useState<ScholarshipPeriod | undefined>();
   const [processingPreview, setProcessingPreview] = useState(false);
@@ -64,12 +64,6 @@ export function ImportCodeProcess() {
         setIsSubmitting(false);
       });
     });
-    void handleImportInProgress(
-      user,
-      setImportInProgress,
-      setIsSubmitting,
-      toast,
-    );
 
     // eslint-disable-next-line consistent-return
     return () => {
@@ -78,6 +72,15 @@ export function ImportCodeProcess() {
       client.disconnect(() => console.log('disconnected'));
     };
   }, [mounted, toast, user, user.token]);
+
+  useEffect(() => {
+    void handleImportInProgress(
+      user,
+      setImportInProgress,
+      setIsSubmitting,
+      toast,
+    );
+  }, [tabIndex, toast, user]);
 
   const onSubmit = useCallback(async () => {
     setIsSubmitting(true);

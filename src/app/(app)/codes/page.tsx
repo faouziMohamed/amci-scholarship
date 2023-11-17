@@ -76,7 +76,7 @@ export default async function CodesPage({ searchParams }: CodePageParams) {
               <Text as='h1' fontSize='1.5rem' fontWeight={600}>
                 Import de nouveaux codes de la bourse
               </Text>
-              <ImportCodeProcess />
+              <ImportCodeProcess tabIndex={index} />
             </TabPanel>
             <TabPanel>
               <Text as='h1' fontSize='1.5rem' fontWeight={600}>
