@@ -14,9 +14,9 @@ import {
 import { useSession } from 'next-auth/react';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 
-import { POST_CODES_ROUTE } from '@/lib/server-route';
 import { crateWebsocketConnection } from '@/lib/utils';
 
+import { createOnSubmitHandler } from '@/app/(app)/codes/createOnSubmitHandler';
 import { ImportProgressMessage } from '@/app/(app)/codes/ImportProgressMessage';
 import { PreviewImportedCodes } from '@/app/(app)/codes/PreviewImportedCodes';
 import { ReadNewScholarshipCodes } from '@/app/(app)/codes/ReadNewScholarshipCodes';
@@ -74,71 +74,27 @@ export function ImportCodeProcess({ tabIndex }: { tabIndex: number }) {
   }, [mounted, toast, user, user.token]);
 
   useEffect(() => {
+    if (!mounted) return;
     void handleImportInProgress(
       user,
       setImportInProgress,
       setIsSubmitting,
       toast,
     );
-  }, [tabIndex, toast, user]);
+  }, [tabIndex, toast, user, mounted]);
 
-  const onSubmit = useCallback(async () => {
-    setIsSubmitting(true);
-    if (codes.length === 0) {
-      toast({
-        title: 'Aucun code à importer',
-        status: 'error',
-        description: 'Veuillez importer des codes avant de continuer',
-      });
-      return;
-    }
-    try {
-      const response = await fetch(POST_CODES_ROUTE, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ codes, period }),
-      });
-
-      if (response.status === 200) {
-        toast({
-          title: 'Codes importés',
-          status: 'success',
-          description:
-            'Les codes ont été importés avec succès, ils sont disponibles dans la liste des codes',
-        });
-        setCodes([]);
-        setIsSubmitting(false);
-        return;
-      }
-      if (response.status === 202) {
-        toast({
-          title: 'Importation en cours...',
-          status: 'info',
-          description:
-            "Les codes sont en cours d'importation, vous receverez une notification lorsque l'importation sera terminée",
-        });
-        setCodes([]);
-        return;
-      }
-      const resJson = (await response.json()) as {
-        message: string;
-        code: number;
-      };
-      toast({
-        title: "Erreur d'importation",
-        status: 'error',
-        description: resJson.message || 'Une erreur est survenue',
-      });
-      setIsSubmitting(false);
-    } catch (error) {
-      const message = (error as Error).message || 'Une erreur est survenue';
-      toast({ title: 'Erreur', status: 'error', description: message });
-      setIsSubmitting(false);
-    }
-  }, [codes, period, toast, user.token]);
+  const onSubmit = useCallback(
+    () =>
+      createOnSubmitHandler(
+        setIsSubmitting,
+        codes,
+        toast,
+        user,
+        period,
+        setCodes,
+      ),
+    [codes, period, toast, user],
+  );
 
   return (
     <>
@@ -186,7 +142,7 @@ export function ImportCodeProcess({ tabIndex }: { tabIndex: number }) {
                   codes={codes}
                   isProcessing={processingPreview}
                   isSubmitting={isSubmitting}
-                  onSubmit={onSubmit}
+                  onSubmit={onSubmit()}
                 />
               </VStack>
             )}

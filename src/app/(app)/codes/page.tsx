@@ -63,7 +63,11 @@ export default async function CodesPage({ searchParams }: CodePageParams) {
           colorScheme='facebook'
           w='100%'
         >
-          <TabList pb='2rem'>
+          <TabList
+            pb='2rem'
+            flexDirection={{ base: 'column', md: 'row' }}
+            textAlign={{ base: 'center' }}
+          >
             <Tab as={Link} href={`${CODES_PAGE}?tab=${IMPORT_CODE_TAB}`}>
               Importer des codes de la bourse
             </Tab>
